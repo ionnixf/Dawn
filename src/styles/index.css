@@ -1,0 +1,172 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Claude Code Design Tokens ─────────────────────────────── */
+
+:root {
+  --cl-canvas: #faf9f5;
+  --cl-panel: #f0eee6;
+  --cl-panel-hover: #e5e2d8;
+  --cl-input: #eae7df;
+  --cl-line: #d9d5cc;
+  --cl-line-strong: #c5c0b6;
+  --cl-fg: #1a1917;
+  --cl-muted: #6b665f;
+  --cl-dim: #9a958c;
+  --cl-accent: #c15f3c;
+  --cl-accent-hover: #a94a2e;
+  --cl-accent-subtle: #f0e0d8;
+  --cl-accent-glow: rgba(193, 95, 60, 0.12);
+  --cl-error: #a84b3a;
+  --cl-success: #2e7c4c;
+  --cl-status: #e5e2d8;
+}
+
+.dark {
+  --cl-canvas: #1a1815;
+  --cl-panel: #201d18;
+  --cl-panel-hover: #2b2a27;
+  --cl-input: #252118;
+  --cl-line: #3a352b;
+  --cl-line-strong: #4a473f;
+  --cl-fg: #e8e6e3;
+  --cl-muted: #a9a39a;
+  --cl-dim: #6a6158;
+  --cl-accent: #c15f3c;
+  --cl-accent-hover: #d97757;
+  --cl-accent-subtle: #2a1e18;
+  --cl-accent-glow: rgba(217, 119, 87, 0.15);
+  --cl-error: #d47563;
+  --cl-success: #9aca86;
+  --cl-status: #141311;
+}
+
+@theme inline {
+  --color-canvas: var(--cl-canvas);
+  --color-panel: var(--cl-panel);
+  --color-panel-hover: var(--cl-panel-hover);
+  --color-input: var(--cl-input);
+  --color-line: var(--cl-line);
+  --color-line-strong: var(--cl-line-strong);
+  --color-fg: var(--cl-fg);
+  --color-muted: var(--cl-muted);
+  --color-dim: var(--cl-dim);
+  --color-accent: var(--cl-accent);
+  --color-accent-hover: var(--cl-accent-hover);
+  --color-accent-subtle: var(--cl-accent-subtle);
+  --color-error: var(--cl-error);
+  --color-success: var(--cl-success);
+  --color-status: var(--cl-status);
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* ── Base Styles ───────────────────────────────────────────── */
+
+* {
+  transition-property: color, background-color, border-color;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+html {
+  background-color: var(--cl-canvas);
+  color: var(--cl-fg);
+  font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cl-line);
+  border-radius: 3px;
+}
+
+/* ── Animated Aurora Background ────────────────────────────── */
+
+@keyframes aurora-drift-1 {
+  0%, 100% {
+    transform: translate(-10%, -5%) scale(1);
+  }
+  33% {
+    transform: translate(15%, 10%) scale(1.2);
+  }
+  66% {
+    transform: translate(5%, -15%) scale(0.9);
+  }
+}
+
+@keyframes aurora-drift-2 {
+  0%, 100% {
+    transform: translate(10%, 5%) scale(0.9);
+  }
+  50% {
+    transform: translate(-15%, -10%) scale(1.3);
+  }
+}
+
+@keyframes aurora-pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.aurora::before,
+.aurora::after {
+  content: "";
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+.aurora::before {
+  top: -20%;
+  left: 10%;
+  background: radial-gradient(circle, var(--cl-accent-glow), transparent 70%);
+  animation: aurora-drift-1 20s ease-in-out infinite, aurora-pulse 8s ease-in-out infinite;
+}
+
+.aurora::after {
+  bottom: -20%;
+  right: 5%;
+  background: radial-gradient(circle, var(--cl-accent-glow), transparent 70%);
+  animation: aurora-drift-2 25s ease-in-out infinite, aurora-pulse 10s ease-in-out infinite 2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora::before,
+  .aurora::after {
+    animation: none;
+  }
+}
+
+/* ── Utilities ─────────────────────────────────────────────── */
+
+@utility widget-card {
+  @apply bg-panel border border-line rounded-lg p-5;
+}
