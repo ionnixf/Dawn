@@ -21,13 +21,13 @@ export default function Greeting() {
   }, [])
 
   return (
-    <div className="text-center select-none pt-6 pb-1">
+    <div className="text-center select-none pt-5 pb-1">
       <h1
         className="text-fg font-semibold"
         style={{
           fontFamily: '"Source Serif 4", Georgia, serif',
-          fontSize: 'clamp(2rem, 6vw, 3.5rem)',
-          lineHeight: 1.15,
+          fontSize: 'clamp(2.25rem, 5.5vw, 3.5rem)',
+          lineHeight: 1.2,
           letterSpacing: '-0.025em',
         }}
       >

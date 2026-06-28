@@ -13,7 +13,7 @@ export default function App() {
 
       <main
         className="min-h-dvh flex flex-col items-center justify-center
-          px-4 pb-16 pt-8"
+          px-4 pb-12 pt-6"
       >
         <div className="w-full max-w-xl mx-auto">
           <WidgetGrid />
