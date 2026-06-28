@@ -1,4 +1,4 @@
-import { useState, useRef, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { useStore } from '../lib/store'
 import { Search, ArrowUpRight } from 'lucide-react'
 
@@ -12,7 +12,6 @@ export default function PromptBar() {
   const searchEngine = useStore((s) => s.searchEngine)
   const [query, setQuery] = useState('')
   const [focused, setFocused] = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null)
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -25,13 +24,13 @@ export default function PromptBar() {
   return (
     <div
       className={`widget-card relative overflow-hidden transition-all ${
-        focused ? 'border-accent/50 shadow-sm shadow-accent/5' : ''
+        focused ? 'border-accent/40 shadow-sm shadow-accent/5' : ''
       }`}
     >
       {/* Accent left bar */}
       <div
-        className={`absolute top-0 left-0 w-[3px] h-full bg-accent transition-opacity rounded-l-xl ${
-          focused ? 'opacity-100' : 'opacity-40'
+        className={`absolute top-0 left-0 w-[3px] h-full rounded-l-xl transition-opacity ${
+          focused ? 'bg-accent opacity-100' : 'bg-accent/30'
         }`}
       />
 
@@ -44,19 +43,18 @@ export default function PromptBar() {
         />
 
         <input
-          ref={inputRef}
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           placeholder="ask anything..."
-          className="flex-1 bg-transparent text-fg font-mono text-[15px]
-            placeholder:text-dim outline-none min-w-0 py-1"
+          className="flex-1 bg-transparent text-fg font-mono text-base
+            placeholder:text-dim/60 outline-none min-w-0 py-1"
           autoFocus
         />
 
-        <span className="font-mono text-[10px] uppercase tracking-wider text-accent/50 shrink-0">
+        <span className="font-sans text-[10px] uppercase tracking-[0.15em] text-muted/40 shrink-0">
           {searchEngine}
         </span>
 

@@ -21,14 +21,14 @@ export default function Greeting() {
   }, [])
 
   return (
-    <div className="text-center select-none pt-4 pb-2">
+    <div className="text-center select-none pt-6 pb-1">
       <h1
         className="text-fg font-semibold"
         style={{
           fontFamily: '"Source Serif 4", Georgia, serif',
-          fontSize: 'clamp(1.75rem, 5vw, 2.75rem)',
-          lineHeight: 1.2,
-          letterSpacing: '-0.02em',
+          fontSize: 'clamp(2rem, 6vw, 3.5rem)',
+          lineHeight: 1.15,
+          letterSpacing: '-0.025em',
         }}
       >
         {greeting}
@@ -39,7 +39,7 @@ export default function Greeting() {
         ) : null}
       </h1>
       {showBranding ? (
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent/60 mt-3">
+        <p className="font-sans text-[11px] text-muted/50 mt-3 tracking-[0.15em] uppercase">
           Claude Home
         </p>
       ) : null}

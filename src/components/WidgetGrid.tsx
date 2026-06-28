@@ -136,12 +136,12 @@ export default function WidgetGrid() {
 
   if (visibleWidgets.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center">
-        <p className="font-mono text-sm text-dim">
-          All widgets are hidden.
+      <div className="flex flex-col items-center justify-center py-20 text-center select-none">
+        <p className="font-sans text-sm text-muted/60">
+          All widgets are hidden
         </p>
-        <p className="font-mono text-xs text-dim mt-1">
-          Open settings to show some widgets.
+        <p className="font-sans text-xs text-dim/50 mt-2">
+          Open settings to show some widgets
         </p>
       </div>
     )

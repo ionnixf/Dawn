@@ -93,14 +93,14 @@ function LinkCard({ link, onEdit, onDelete }: LinkCardProps) {
       href={link.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex items-center gap-3 px-3 py-2.5 rounded-lg border border-line
+      className="group flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg border border-line
         bg-panel hover:bg-panel-hover transition-colors no-underline cursor-pointer relative"
     >
-      <Globe size={15} className="text-dim group-hover:text-accent shrink-0 transition-colors" />
-      <span className="font-mono text-sm text-fg truncate flex-1">
+      <Globe size={14} className="text-dim/60 group-hover:text-accent shrink-0 transition-colors" />
+      <span className="text-sm text-fg truncate flex-1">
         {link.label}
       </span>
-      <span className="font-mono text-[10px] text-dim truncate max-w-[100px] hidden sm:block">
+      <span className="font-mono text-[10px] text-dim/60 truncate max-w-[90px] hidden sm:block">
         {link.url.replace(/^https?:\/\//, '')}
       </span>
 
@@ -150,22 +150,22 @@ export default function QuickLinks() {
   return (
     <div className="widget-card relative">
       {/* Accent corner mark */}
-      <div className="absolute top-0 left-0 w-1 h-full bg-accent/40 rounded-l-lg" />
+      <div className="absolute top-0 left-0 w-[3px] h-full bg-accent/30 rounded-l-xl" />
 
       {/* Header */}
       <div className="flex items-center justify-between mb-3 pl-1">
-        <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent/80 flex items-center gap-2">
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent" />
+        <h2 className="font-sans text-xs uppercase tracking-[0.15em] text-accent/70 flex items-center gap-2">
+          <span className="inline-block w-[5px] h-[5px] rounded-full bg-accent/60" />
           Quick Links
         </h2>
         <button
           type="button"
           onClick={() => setAdding(true)}
-          className="flex items-center gap-1 text-xs font-mono text-muted
+          className="flex items-center gap-1.5 text-xs font-sans text-muted/60
             hover:text-accent transition-colors cursor-pointer"
         >
-          <Plus size={13} />
-          add
+          <Plus size={12} />
+          Add
         </button>
       </div>
 

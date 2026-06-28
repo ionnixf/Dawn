@@ -1,7 +1,9 @@
 {
   "name": "claude-home",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.2.0",
+  "description": "Browser home page inspired by Claude Code terminal aesthetic",
+  "author": "",
   "type": "module",
   "scripts": {
     "dev": "vite",
