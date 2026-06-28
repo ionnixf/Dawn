@@ -23,11 +23,15 @@ export default function PromptBar() {
   }
 
   return (
-    <div className={`widget-card relative overflow-hidden transition-all ${focused ? 'border-accent/50' : ''}`}>
+    <div
+      className={`widget-card relative overflow-hidden transition-all ${
+        focused ? 'border-accent/50 shadow-sm shadow-accent/5' : ''
+      }`}
+    >
       {/* Accent left bar */}
       <div
-        className={`absolute top-0 left-0 w-1 h-full bg-accent transition-opacity ${
-          focused ? 'opacity-100' : 'opacity-50'
+        className={`absolute top-0 left-0 w-[3px] h-full bg-accent transition-opacity rounded-l-xl ${
+          focused ? 'opacity-100' : 'opacity-40'
         }`}
       />
 
@@ -47,13 +51,12 @@ export default function PromptBar() {
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           placeholder="ask anything..."
-          className="flex-1 bg-transparent text-fg font-mono text-base
+          className="flex-1 bg-transparent text-fg font-mono text-[15px]
             placeholder:text-dim outline-none min-w-0 py-1"
           autoFocus
         />
 
-        {/* Search engine label */}
-        <span className="font-mono text-[10px] uppercase tracking-wider text-accent/60 shrink-0">
+        <span className="font-mono text-[10px] uppercase tracking-wider text-accent/50 shrink-0">
           {searchEngine}
         </span>
 
@@ -69,11 +72,12 @@ export default function PromptBar() {
         </button>
       </form>
 
-      {/* Bottom accent line (Claude Code prompt border) */}
+      {/* Bottom accent line */}
       <div
-        className={`mt-3 ml-2 h-[2px] rounded-full transition-all ${
-          focused ? 'bg-accent w-[calc(100%-0.5rem)]' : 'bg-line w-[calc(100%-0.5rem)]'
+        className={`mt-3 ml-1 h-[2px] rounded-full transition-all ${
+          focused ? 'bg-accent/60' : 'bg-line'
         }`}
+        style={{ width: 'calc(100% - 0.5rem)' }}
       />
     </div>
   )

@@ -26,14 +26,22 @@ export default function DateTime() {
   }, [])
 
   return (
-    <div className="widget-card relative overflow-hidden text-center py-7">
+    <div className="widget-card relative overflow-hidden text-center px-8 py-8">
       {/* Accent corner mark */}
-      <div className="absolute top-0 left-0 w-1 h-full bg-accent/60" />
+      <div className="absolute top-0 left-0 w-[3px] h-full bg-accent/50 rounded-l-xl" />
 
-      <p className="font-mono text-[11px] text-muted uppercase tracking-[0.2em]">
+      <p className="font-mono text-[10px] text-muted uppercase tracking-[0.25em]">
         {formatDate(now)}
       </p>
-      <p className="font-mono text-6xl mt-3 tabular-nums tracking-tight text-fg font-semibold">
+      <p
+        className="mt-3 text-fg tabular-nums tracking-tight"
+        style={{
+          fontFamily: '"Source Serif 4", Georgia, serif',
+          fontSize: 'clamp(2.75rem, 10vw, 4rem)',
+          lineHeight: 1,
+          fontWeight: 600,
+        }}
+      >
         {formatTime(now)}
       </p>
     </div>

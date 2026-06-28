@@ -36,7 +36,7 @@
   --cl-accent: #c15f3c;
   --cl-accent-hover: #d97757;
   --cl-accent-subtle: #2a1e18;
-  --cl-accent-glow: rgba(217, 119, 87, 0.15);
+  --cl-accent-glow: rgba(217, 119, 87, 0.18);
   --cl-error: #d47563;
   --cl-success: #9aca86;
   --cl-status: #141311;
@@ -58,8 +58,8 @@
   --color-error: var(--cl-error);
   --color-success: var(--cl-success);
   --color-status: var(--cl-status);
-  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "DM Mono", "JetBrains Mono", ui-monospace, monospace;
 }
 
 /* ── Base Styles ───────────────────────────────────────────── */
@@ -73,7 +73,7 @@
 html {
   background-color: var(--cl-canvas);
   color: var(--cl-fg);
-  font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
+  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -97,33 +97,19 @@ html {
 /* ── Animated Aurora Background ────────────────────────────── */
 
 @keyframes aurora-drift-1 {
-  0%, 100% {
-    transform: translate(-10%, -5%) scale(1);
-  }
-  33% {
-    transform: translate(15%, 10%) scale(1.2);
-  }
-  66% {
-    transform: translate(5%, -15%) scale(0.9);
-  }
+  0%, 100% { transform: translate(-10%, -5%) scale(1); }
+  33% { transform: translate(15%, 10%) scale(1.2); }
+  66% { transform: translate(5%, -15%) scale(0.9); }
 }
 
 @keyframes aurora-drift-2 {
-  0%, 100% {
-    transform: translate(10%, 5%) scale(0.9);
-  }
-  50% {
-    transform: translate(-15%, -10%) scale(1.3);
-  }
+  0%, 100% { transform: translate(10%, 5%) scale(0.9); }
+  50% { transform: translate(-15%, -10%) scale(1.3); }
 }
 
 @keyframes aurora-pulse {
-  0%, 100% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
-  }
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
 }
 
 .aurora {
@@ -138,22 +124,22 @@ html {
 .aurora::after {
   content: "";
   position: absolute;
-  width: 60vw;
-  height: 60vw;
+  width: 50vw;
+  height: 50vw;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(100px);
 }
 
 .aurora::before {
-  top: -20%;
-  left: 10%;
+  top: -25%;
+  left: 15%;
   background: radial-gradient(circle, var(--cl-accent-glow), transparent 70%);
   animation: aurora-drift-1 20s ease-in-out infinite, aurora-pulse 8s ease-in-out infinite;
 }
 
 .aurora::after {
-  bottom: -20%;
-  right: 5%;
+  bottom: -25%;
+  right: 10%;
   background: radial-gradient(circle, var(--cl-accent-glow), transparent 70%);
   animation: aurora-drift-2 25s ease-in-out infinite, aurora-pulse 10s ease-in-out infinite 2s;
 }
@@ -168,5 +154,5 @@ html {
 /* ── Utilities ─────────────────────────────────────────────── */
 
 @utility widget-card {
-  @apply bg-panel border border-line rounded-lg p-5;
+  @apply bg-panel border border-line rounded-xl p-5;
 }

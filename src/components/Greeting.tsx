@@ -21,8 +21,16 @@ export default function Greeting() {
   }, [])
 
   return (
-    <div className="text-center select-none py-2">
-      <h1 className="font-sans text-3xl font-semibold tracking-tight text-fg">
+    <div className="text-center select-none pt-4 pb-2">
+      <h1
+        className="text-fg font-semibold"
+        style={{
+          fontFamily: '"Source Serif 4", Georgia, serif',
+          fontSize: 'clamp(1.75rem, 5vw, 2.75rem)',
+          lineHeight: 1.2,
+          letterSpacing: '-0.02em',
+        }}
+      >
         {greeting}
         {name ? (
           <>
@@ -31,7 +39,7 @@ export default function Greeting() {
         ) : null}
       </h1>
       {showBranding ? (
-        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-accent/70 mt-2">
+        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent/60 mt-3">
           Claude Home
         </p>
       ) : null}
