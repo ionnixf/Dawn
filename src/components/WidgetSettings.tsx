@@ -205,7 +205,7 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
                   className={`flex-1 px-4 py-2 rounded-lg text-xs font-sans tactile
                     transition-all duration-200 cursor-pointer ${
                       searchEngine === engine
-                        ? 'bg-accent text-white shadow-sm shadow-accent/20'
+                        ? 'bg-accent text-white'
                         : 'bg-input text-muted hover:text-fg hover:bg-panel-hover border border-line hover:border-line-strong'
                     }`}
                 >

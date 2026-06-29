@@ -47,7 +47,7 @@ function LinkForm({ initial, onSubmit, onCancel }: LinkFormProps) {
           type="button"
           onClick={onCancel}
           className="px-3 py-1 text-xs font-sans text-muted/60 hover:text-fg
-            hover:bg-panel-hover rounded transition-colors cursor-pointer"
+            hover:bg-panel-hover rounded-lg transition-colors cursor-pointer"
         >
           cancel
         </button>
@@ -55,7 +55,7 @@ function LinkForm({ initial, onSubmit, onCancel }: LinkFormProps) {
           type="submit"
           disabled={!label.trim() || !url.trim()}
           className="px-3 py-1 text-xs font-sans text-white bg-accent
-            hover:bg-accent-hover rounded disabled:opacity-40 transition-colors cursor-pointer"
+            hover:bg-accent-hover rounded-lg disabled:opacity-40 transition-colors cursor-pointer"
         >
           {initial ? 'save' : 'add'}
         </button>
@@ -130,7 +130,7 @@ function LinkCard({ link, onEdit, onDelete }: LinkCardProps) {
             onDelete(link.id)
           }}
           className="p-1 rounded text-dim hover:text-error hover:bg-error/10
-            transition-colors cursor-pointer tactile"
+            transition-colors cursor-pointer"
           aria-label="Delete link"
         >
           <X size={12} />
