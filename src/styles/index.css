@@ -15,9 +15,10 @@
   --cl-muted: #6b665f;
   --cl-dim: #9a958c;
   --cl-accent: #c15f3c;
-  --cl-accent-hover: #a94a2e;
-  --cl-accent-subtle: #f0e0d8;
-  --cl-accent-glow: rgba(193, 95, 60, 0.12);
+  /* Derived from --cl-accent via color-mix (light: hover darker) */
+  --cl-accent-hover: color-mix(in srgb, var(--cl-accent) 78%, #000);
+  --cl-accent-subtle: color-mix(in srgb, var(--cl-accent) 10%, var(--cl-canvas));
+  --cl-accent-glow: color-mix(in srgb, var(--cl-accent) 14%, transparent);
   --cl-error: #a84b3a;
   --cl-success: #2e7c4c;
   --cl-status: #e5e2d8;
@@ -36,9 +37,10 @@
   --cl-muted: #a9a39a;
   --cl-dim: #6a6158;
   --cl-accent: #c15f3c;
-  --cl-accent-hover: #d97757;
-  --cl-accent-subtle: #2a1e18;
-  --cl-accent-glow: rgba(217, 119, 87, 0.18);
+  /* Derived from --cl-accent via color-mix (dark: hover lighter) */
+  --cl-accent-hover: color-mix(in srgb, var(--cl-accent) 72%, #fff);
+  --cl-accent-subtle: color-mix(in srgb, var(--cl-accent) 14%, var(--cl-canvas));
+  --cl-accent-glow: color-mix(in srgb, var(--cl-accent) 20%, transparent);
   --cl-error: #d47563;
   --cl-success: #9aca86;
   --cl-status: #141311;

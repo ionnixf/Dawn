@@ -8,9 +8,13 @@ import App from './App'
 const stored = localStorage.getItem('claude-home-config')
 if (stored) {
   try {
-    const { theme } = JSON.parse(stored)
+    const parsed = JSON.parse(stored)
+    const { theme, accentColor } = parsed
     document.documentElement.classList.toggle('dark', theme === 'dark')
     document.documentElement.classList.toggle('light', theme === 'light')
+    if (accentColor) {
+      document.documentElement.style.setProperty('--cl-accent', accentColor)
+    }
   } catch { /* ignore */ }
 } else {
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches

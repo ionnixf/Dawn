@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useStore } from '../lib/store'
 import { X } from 'lucide-react'
+import AccentPicker from './AccentPicker'
 import type { WidgetId } from '../types'
 
 const WIDGET_LABELS: Record<WidgetId, string> = {
@@ -175,6 +176,17 @@ export default function WidgetSettings({ isOpen, onClose }: WidgetSettingsProps)
                 />
               </div>
             </label>
+          </section>
+
+          {/* Accent Color */}
+          <section>
+            <h3 className="font-mono text-[10px] uppercase tracking-widest text-muted mb-2">
+              Accent Color
+            </h3>
+            <p className="text-xs text-muted font-sans mb-3">
+              Choose a colour preset or pick your own
+            </p>
+            <AccentPicker />
           </section>
 
           {/* Search engine */}

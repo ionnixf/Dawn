@@ -23,6 +23,7 @@ interface PersistedState {
   greetingName: string
   searchEngine: 'google' | 'duckduckgo' | 'bing'
   showBranding: boolean
+  accentColor: string
 }
 
 function loadState(): PersistedState {
@@ -40,6 +41,7 @@ function loadState(): PersistedState {
     greetingName: '',
     searchEngine: 'google',
     showBranding: true,
+    accentColor: '#c15f3c',
   }
 }
 
@@ -62,6 +64,7 @@ export const useStore = create<AppState>((set, get) => ({
   greetingName: persisted.greetingName,
   searchEngine: persisted.searchEngine,
   showBranding: persisted.showBranding,
+  accentColor: persisted.accentColor || '#c15f3c',
 
   // ── Theme ──
   setTheme: (theme) => {
@@ -129,6 +132,12 @@ export const useStore = create<AppState>((set, get) => ({
     set({ showBranding: show })
     persist(get())
   },
+
+  setAccentColor: (color) => {
+    set({ accentColor: color })
+    document.documentElement.style.setProperty('--cl-accent', color)
+    persist(get())
+  },
 }))
 
 function persist(state: AppState) {
@@ -142,5 +151,6 @@ function persist(state: AppState) {
     greetingName: state.greetingName,
     searchEngine: state.searchEngine,
     showBranding: state.showBranding,
+    accentColor: state.accentColor,
   })
 }
