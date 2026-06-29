@@ -47,7 +47,7 @@ export default function Greeting() {
             letterSpacing: '0.35em',
           }}
         >
-          Claude Home
+          Dawn
         </p>
       ) : null}
     </div>

@@ -1,8 +1,8 @@
 {
-  "name": "claude-home",
+  "name": "dawn",
   "private": true,
-  "version": "0.2.0",
-  "description": "Browser home page inspired by Claude Code terminal aesthetic",
+  "version": "0.3.0",
+  "description": "Browser start page with terminal aesthetic",
   "author": "",
   "type": "module",
   "scripts": {

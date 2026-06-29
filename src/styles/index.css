@@ -2,7 +2,7 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ── Claude Code Design Tokens ─────────────────────────────── */
+/* ── Dawn Design Tokens ────────────────────────────────────── */
 
 :root {
   --cl-canvas: #faf9f5;

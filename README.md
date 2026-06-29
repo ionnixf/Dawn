@@ -1,6 +1,6 @@
-# Claude Home
+# Dawn
 
-A browser home page inspired by the Claude Code terminal aesthetic — warm dark/light themes, editorial typography, and a clean, customizable widget layout.
+A browser start page with a terminal-inspired aesthetic — warm dark/light themes, editorial typography, and a clean, customizable widget layout.
 
 Built with React, TypeScript, Tailwind CSS v4, and Zustand.
 
@@ -9,8 +9,9 @@ Built with React, TypeScript, Tailwind CSS v4, and Zustand.
 - **🌓 Dual theme** — warm dark (`#1a1815`) and light cream (`#faf9f5`) with terracotta accent (`#c15f3c`)
 - **🔍 Prompt bar** — terminal-style search with Google / DuckDuckGo / Bing
 - **🔗 Quick links** — editable bookmarks with inline edit and delete
-- **🕐 Date & time** — live clock in editorial serif
+- **🕐 Date & time** — live clock in monospace
 - **👋 Greeting** — time-of-day greeting with optional personalised name
+- **🎨 Accent color** — 8 curated presets or custom picker
 - **⚙️ Customisable widgets** — show/hide and drag-to-reorder each widget
 - **💾 Persistent** — all settings saved to `localStorage`
 - **✨ Aurora background** — subtle animated ambient glow
@@ -26,7 +27,7 @@ Built with React, TypeScript, Tailwind CSS v4, and Zustand.
 | [Zustand](https://github.com/pmndrs/zustand) | Lightweight state management |
 | [@dnd-kit](https://dndkit.com/) | Drag-to-reorder widgets |
 | [Lucide](https://lucide.dev/) | Icons |
-| **DM Sans** / **Source Serif 4** / **DM Mono** | Typography (Claude brand-aligned) |
+| **DM Sans** / **Source Serif 4** / **DM Mono** | Typography |
 
 ## Getting started
 
@@ -60,23 +61,15 @@ src/
     ├── QuickLinks.tsx        # Editable bookmarks
     ├── WidgetGrid.tsx        # DnK container for widgets
     ├── WidgetSettings.tsx    # Settings modal
+    ├── AccentPicker.tsx      # Color preset/picker grid
     ├── ThemeToggle.tsx       # Dark/light toggle
     └── StatusBar.tsx         # Bottom status bar
 ```
 
 ## Design
 
-Typography follows the Claude / Anthropic brand direction:
+- **Source Serif 4** — editorial greeting heading
+- **DM Sans** — UI text
+- **DM Mono** — data and technical labels
 
-- **Source Serif 4** — editorial headings (matching Anthropic Serif)
-- **DM Sans** — UI text (matching Anthropic Sans)
-- **DM Mono** — technical labels (matching Anthropic Mono)
-
-The colour palette is the warm terracotta-based Claude Code scheme.
-
-## Rollback checkpoints
-
-```bash
-git checkout checkpoint-v2   # Latest stable state
-git checkout checkpoint-v1   # Before font/proportion changes
-```
+The colour palette uses a warm terracotta-based scheme with 8 swappable accent colours.

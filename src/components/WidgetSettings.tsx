@@ -61,15 +61,16 @@ export default function WidgetSettings({ isOpen, onClose }: WidgetSettingsProps)
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-40 flex items-center justify-center
+      className="fixed inset-0 z-40 flex items-start justify-center
+        pt-6 sm:items-center sm:pt-0
         bg-canvas/80 backdrop-blur-sm"
     >
       <div
         className="bg-panel border border-line rounded-xl w-full max-w-md mx-4
-          shadow-lg"
+          shadow-lg flex flex-col max-h-[90dvh]"
       >
-        {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-line">
+        {/* Header (fixed) */}
+        <div className="flex items-center justify-between px-5 py-4 border-b border-line shrink-0">
           <h2 className="font-mono text-sm uppercase tracking-widest text-fg">
             Settings
           </h2>
@@ -84,7 +85,8 @@ export default function WidgetSettings({ isOpen, onClose }: WidgetSettingsProps)
           </button>
         </div>
 
-        <div className="px-5 py-4 space-y-5">
+        {/* Content (scrollable) */}
+        <div className="px-5 py-4 space-y-5 overflow-y-auto overscroll-contain">
           {/* Widget toggles */}
           <section>
             <h3 className="font-mono text-[10px] uppercase tracking-widest text-muted mb-3">
@@ -154,7 +156,7 @@ export default function WidgetSettings({ isOpen, onClose }: WidgetSettingsProps)
                 rounded-md hover:bg-panel-hover transition-colors cursor-pointer"
             >
               <div>
-                <p className="text-sm text-fg font-medium">Show "Claude Home" branding</p>
+                <p className="text-sm text-fg font-medium">Show "Dawn" branding</p>
                 <p className="text-xs text-muted font-mono">Subtitle under the greeting</p>
               </div>
               <div
@@ -214,8 +216,8 @@ export default function WidgetSettings({ isOpen, onClose }: WidgetSettingsProps)
           </section>
         </div>
 
-        {/* Footer */}
-        <div className="border-t border-line px-5 py-3">
+        {/* Footer (fixed) */}
+        <div className="border-t border-line px-5 py-3 shrink-0">
           <p className="font-mono text-[10px] text-dim text-center">
             All settings are stored locally in your browser
           </p>

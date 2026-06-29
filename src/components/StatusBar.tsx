@@ -15,7 +15,7 @@ export default function StatusBar({ onOpenSettings }: StatusBarProps) {
         flex items-center justify-between px-3 text-[11px] font-sans text-dim/60 z-50"
     >
       <div className="flex items-center gap-3">
-        <span className="hidden sm:inline">Claude Home</span>
+        <span className="hidden sm:inline">Dawn</span>
         <span className="hidden sm:inline">v0.1.0</span>
         <span>{quickLinks.length} links</span>
       </div>
