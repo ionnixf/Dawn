@@ -10,11 +10,11 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       className="flex items-center gap-1.5 px-2 py-0.5 min-w-[4ch] justify-center text-[11px] text-dim/60
-        hover:text-fg hover:bg-panel-hover rounded transition-colors cursor-pointer font-sans leading-none"
+        hover:text-fg hover:bg-panel-hover rounded transition-colors cursor-pointer font-sans"
       aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
     >
       {theme === 'dark' ? <Sun size={11} aria-hidden="true" /> : <Moon size={11} aria-hidden="true" />}
-      <span className="leading-none">{theme === 'dark' ? 'light' : 'dark'}</span>
+      <span>{theme === 'dark' ? 'light' : 'dark'}</span>
     </button>
   )
 }
