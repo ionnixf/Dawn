@@ -26,7 +26,7 @@ function Toggle({ checked, onChange, id }: { checked: boolean; onChange: () => v
       aria-checked={checked}
       id={id}
       onClick={onChange}
-      className={`relative inline-flex h-5 w-9 shrink-0 rounded-full border transition-all duration-200 tactile ${
+      className={`relative inline-flex items-center h-5 w-9 shrink-0 rounded-full border transition-all duration-200 ${
         checked
           ? 'bg-accent border-accent'
           : 'bg-panel border-line hover:border-line-strong'
