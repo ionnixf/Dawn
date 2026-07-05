@@ -19,6 +19,57 @@ const WIDGET_DESCRIPTIONS: Record<WidgetId, string> = {
   quickLinks: 'Editable bookmark grid',
 }
 
+function CenteredLayoutPreview({ active }: { active: boolean }) {
+  return (
+    <svg className="w-full h-8 opacity-75 shrink-0" viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0.5" y="0.5" width="47" height="31" rx="4" stroke="currentColor" strokeOpacity={active ? "0.8" : "0.3"} />
+      <rect x="16" y="6" width="16" height="3" rx="0.5" fill="currentColor" fillOpacity={active ? "0.9" : "0.4"} />
+      <rect x="10" y="13" width="28" height="6" rx="1" fill="currentColor" fillOpacity={active ? "0.9" : "0.4"} />
+      <rect x="14" y="23" width="20" height="3" rx="0.5" fill="currentColor" fillOpacity={active ? "0.9" : "0.4"} />
+    </svg>
+  )
+}
+
+function SidebarLayoutPreview({ active }: { active: boolean }) {
+  return (
+    <svg className="w-full h-8 opacity-75 shrink-0" viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0.5" y="0.5" width="47" height="31" rx="4" stroke="currentColor" strokeOpacity={active ? "0.8" : "0.3"} />
+      <rect x="4" y="5" width="12" height="4" rx="0.5" fill="currentColor" fillOpacity={active ? "0.9" : "0.4"} />
+      <rect x="4" y="12" width="12" height="8" rx="1" fill="currentColor" fillOpacity={active ? "0.9" : "0.4"} />
+      <rect x="4" y="23" width="12" height="4" rx="0.5" fill="currentColor" fillOpacity={active ? "0.9" : "0.4"} />
+    </svg>
+  )
+}
+
+function DashboardLayoutPreview({ active }: { active: boolean }) {
+  return (
+    <svg className="w-full h-8 opacity-75 shrink-0" viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0.5" y="0.5" width="47" height="31" rx="4" stroke="currentColor" strokeOpacity={active ? "0.8" : "0.3"} />
+      <rect x="6" y="5" width="36" height="4" rx="0.5" fill="currentColor" fillOpacity={active ? "0.9" : "0.4"} />
+      <rect x="6" y="12" width="16" height="6" rx="1" fill="currentColor" fillOpacity={active ? "0.9" : "0.4"} />
+      <rect x="26" y="12" width="16" height="6" rx="1" fill="currentColor" fillOpacity={active ? "0.9" : "0.4"} />
+      <rect x="6" y="21" width="16" height="6" rx="1" fill="currentColor" fillOpacity={active ? "0.9" : "0.4"} />
+      <rect x="26" y="21" width="16" height="6" rx="1" fill="currentColor" fillOpacity={active ? "0.9" : "0.4"} />
+    </svg>
+  )
+}
+
+function FocusLayoutPreview({ active }: { active: boolean }) {
+  return (
+    <svg className="w-full h-8 opacity-75 shrink-0" viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0.5" y="0.5" width="47" height="31" rx="4" stroke="currentColor" strokeOpacity={active ? "0.8" : "0.3"} />
+      <rect x="8" y="13" width="32" height="6" rx="1" fill="currentColor" fillOpacity={active ? "0.9" : "0.4"} />
+    </svg>
+  )
+}
+
+const LAYOUT_PREVIEWS: Record<string, (props: { active: boolean }) => React.JSX.Element> = {
+  centered: CenteredLayoutPreview,
+  sidebar: SidebarLayoutPreview,
+  dashboard: DashboardLayoutPreview,
+  focus: FocusLayoutPreview,
+}
+
 function Toggle({ checked, onChange, id }: { checked: boolean; onChange: () => void; id: string }) {
   return (
     <button
@@ -27,16 +78,16 @@ function Toggle({ checked, onChange, id }: { checked: boolean; onChange: () => v
       aria-checked={checked}
       id={id}
       onClick={onChange}
-      className={`relative inline-flex items-center h-5 w-9 shrink-0 rounded-full border transition-all duration-200 ${
+      className={`relative inline-flex items-center h-5 w-9 shrink-0 rounded-full border transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-accent/40 cursor-pointer tactile ${
         checked
-          ? 'bg-accent border-accent'
-          : 'bg-panel border-line hover:border-line-strong'
+          ? 'bg-accent border-accent shadow-[inset_0_1px_2px_rgba(0,0,0,0.15)]'
+          : 'bg-input border-line hover:border-line-strong hover:bg-panel shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]'
       }`}
     >
       <span
-        className={`inline-block h-4 w-4 rounded-full bg-white shadow-sm ring-0
-          transition-all duration-200 ${
-          checked ? 'translate-x-[18px]' : 'translate-x-[1px]'
+        className={`inline-block h-3.5 w-3.5 rounded-full bg-white shadow-md ring-0
+          transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+          checked ? 'translate-x-[18px]' : 'translate-x-[2px]'
         }`}
       />
     </button>
@@ -92,12 +143,15 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
       ref={overlayRef}
       className="fixed inset-0 z-40 flex items-start justify-center
         pt-6 sm:items-center sm:pt-0
-        bg-canvas/80 backdrop-blur-sm"
+        bg-canvas/60 backdrop-blur-md"
     >
-      <div
-        className="bg-panel border border-line rounded-xl w-full max-w-3xl mx-4
-          shadow-lg flex flex-col max-h-[90dvh]"
-      >
+      {/* Outer Bezel (Double-Bezel) */}
+      <div className="p-1 rounded-[1.25rem] bg-canvas/10 border border-white/10 dark:border-black/30 shadow-2xl shadow-black/20 w-full max-w-3xl mx-4 max-h-[90dvh] flex flex-col">
+        {/* Inner Core */}
+        <div
+          className="bg-panel border border-line rounded-[calc(1.25rem-4px)] w-full
+            flex flex-col flex-grow overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]"
+        >
         {/* ── Header ───────────────────────────────────────── */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-line shrink-0">
           <h2 className="font-sans text-sm font-medium text-fg">Settings</h2>
@@ -136,34 +190,39 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
                         type="button"
                         onClick={() => setThemeId(t.id)}
                         className={`
-                          group relative flex flex-col gap-2 p-2.5 rounded-lg
-                          border transition-all cursor-pointer tactile text-left
+                          group relative flex flex-col gap-2 p-2 rounded-xl
+                          border transition-all duration-300 cursor-pointer tactile text-left bg-input/20
                           ${active
-                            ? 'border-accent ring-2 ring-accent/25'
-                            : 'border-line hover:border-accent/40'
+                            ? 'border-accent ring-2 ring-accent/25 bg-panel'
+                            : 'border-line hover:border-accent/40 hover:bg-panel-hover'
                           }
                         `}
                         aria-pressed={active}
                       >
-                        {/* Mini preview */}
-                        <div className="flex items-stretch gap-1 h-9 overflow-hidden rounded">
-                          <span
-                            className="flex-1 rounded-l"
-                            style={{ backgroundColor: mode === 'dark' ? sw.darkCanvas : sw.lightCanvas }}
-                          />
-                          <span
-                            className="flex-1 border-x"
-                            style={{
+                        {/* Mini preview: Double-Bezel micro-layout */}
+                        <div 
+                          className="relative flex items-center justify-center h-14 overflow-hidden rounded-lg border border-line/45 shadow-sm p-1.5"
+                          style={{ backgroundColor: mode === 'dark' ? sw.darkCanvas : sw.lightCanvas }}
+                        >
+                          <div 
+                            className="w-full h-full rounded border flex flex-col justify-between p-1 transition-all"
+                            style={{ 
                               backgroundColor: mode === 'dark' ? sw.darkPanel : sw.lightPanel,
                               borderColor: 'rgba(127,127,127,0.15)',
+                              boxShadow: active ? '0 4px 12px rgba(0,0,0,0.1)' : 'none'
                             }}
-                          />
-                          <span
-                            className="w-3 rounded-r"
-                            style={{ backgroundColor: sw.accent }}
-                          />
+                          >
+                            {/* Micro content */}
+                            <div className="w-1/2 h-1 rounded-full opacity-60" style={{ backgroundColor: mode === 'dark' ? '#fff' : '#000' }} />
+                            <div className="w-2/3 h-1.5 rounded" style={{ backgroundColor: sw.accent }} />
+                            <div className="w-full flex gap-0.5 mt-auto">
+                              <div className="w-full h-1 rounded-sm bg-line-strong/30" />
+                              <div className="w-full h-1 rounded-sm bg-line-strong/30" />
+                              <div className="w-full h-1 rounded-sm bg-line-strong/30" />
+                            </div>
+                          </div>
                         </div>
-                        <span className="font-sans text-xs text-fg font-medium">{t.name}</span>
+                        <span className="font-sans text-xs text-fg font-semibold tracking-wide pl-0.5">{t.name}</span>
                       </button>
                     )
                   })}
@@ -210,9 +269,10 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
                 <p className="font-sans text-xs text-dim mb-4">
                   Arrange widgets and control display density
                 </p>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-3">
                   {LAYOUTS.map((l) => {
                     const active = layoutId === l.id
+                    const Preview = LAYOUT_PREVIEWS[l.id]
                     return (
                       <button
                         key={l.id}
@@ -220,19 +280,22 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
                         onClick={() => setLayoutId(l.id)}
                         title={l.description}
                         className={`
-                          p-2.5 rounded-lg text-xs font-sans text-left tactile
-                          transition-all duration-200 cursor-pointer border flex flex-col justify-between h-[64px]
+                          group relative p-2.5 rounded-xl text-xs font-sans text-left tactile
+                          transition-all duration-300 cursor-pointer border flex flex-col items-center gap-2 h-auto
                           ${active
-                            ? 'bg-accent text-white border-accent'
+                            ? 'bg-accent/10 border-accent/60 text-fg ring-1 ring-accent/20'
                             : 'bg-input border-line text-muted hover:text-fg hover:bg-panel-hover hover:border-line-strong'
                           }
                         `}
                         aria-pressed={active}
                       >
-                        <span className="font-medium leading-tight">{l.name}</span>
-                        <span className={`text-[10px] block truncate leading-none ${active ? 'text-white/80' : 'text-dim'}`}>
-                          {l.description}
-                        </span>
+                        {Preview ? <Preview active={active} /> : null}
+                        <div className="text-center w-full">
+                          <span className="font-semibold block leading-tight">{l.name}</span>
+                          <span className={`text-[9px] block truncate leading-tight mt-0.5 ${active ? 'text-accent' : 'text-dim'}`}>
+                            {l.description}
+                          </span>
+                        </div>
                       </button>
                     )
                   })}
@@ -380,6 +443,7 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
             All settings saved locally in your browser
           </p>
         </div>
+      </div>
       </div>
     </div>
   )
