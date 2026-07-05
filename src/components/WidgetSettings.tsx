@@ -54,20 +54,10 @@ function DashboardLayoutPreview({ active }: { active: boolean }) {
   )
 }
 
-function FocusLayoutPreview({ active }: { active: boolean }) {
-  return (
-    <svg className="w-full h-8 opacity-75 shrink-0" viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0.5" y="0.5" width="47" height="31" rx="4" stroke="currentColor" strokeOpacity={active ? "0.8" : "0.3"} />
-      <rect x="8" y="13" width="32" height="6" rx="1" fill="currentColor" fillOpacity={active ? "0.9" : "0.4"} />
-    </svg>
-  )
-}
-
 const LAYOUT_PREVIEWS: Record<string, (props: { active: boolean }) => React.JSX.Element> = {
   centered: CenteredLayoutPreview,
   sidebar: SidebarLayoutPreview,
   dashboard: DashboardLayoutPreview,
-  focus: FocusLayoutPreview,
 }
 
 function Toggle({ checked, onChange, id }: { checked: boolean; onChange: () => void; id: string }) {

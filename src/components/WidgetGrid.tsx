@@ -174,34 +174,6 @@ function SidebarList({
   )
 }
 
-/**
- * Focus view: only the prompt bar, no drag-reorder (nothing to reorder).
- * Rendered OUTSIDE the DndContext — DnD only makes sense in Centered/Dashboard.
- */
-function FocusView({ visibleWidgets }: { visibleWidgets: { id: WidgetId }[] }) {
-  const promptVisible = visibleWidgets.some((w) => w.id === 'promptBar')
-  const hiddenCount = visibleWidgets.filter((w) => w.id !== 'promptBar').length
-
-  return (
-    <div className="flex flex-col items-center w-full max-w-xl mx-auto">
-      {promptVisible ? (
-        <div className="widget-enter w-full">
-          {WIDGET_MAP.promptBar}
-        </div>
-      ) : null}
-      {!promptVisible ? (
-        <p className="font-mono text-xs text-dim/60 py-8 text-center">
-          Prompt bar is hidden — show it in settings to use Focus.
-        </p>
-      ) : hiddenCount > 0 ? (
-        <p className="font-mono text-[11px] text-dim/50 mt-4 text-center select-none">
-          {hiddenCount} hidden in Focus view
-        </p>
-      ) : null}
-    </div>
-  )
-}
-
 export default function WidgetGrid() {
   const widgets = useStore((s) => s.widgets)
   const reorderWidgets = useStore((s) => s.reorderWidgets)
@@ -251,10 +223,6 @@ export default function WidgetGrid() {
     reorderWidgets(merged)
   }
 
-  // Focus view: rendered outside DndContext — no reorder, just the prompt bar.
-  if (layoutId === 'focus') {
-    return <FocusView visibleWidgets={visibleWidgets} />
-  }
 
   if (visibleWidgets.length === 0) {
     return (

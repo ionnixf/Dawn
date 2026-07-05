@@ -29,8 +29,8 @@ export interface ThemeMeta {
 
 export const THEMES: ThemeMeta[] = [
   {
-    id: 'cloud-code',
-    name: 'Cloud Code',
+    id: 'claude-code',
+    name: 'Claude Code',
     backdrop: 'aurora',
     defaultAccent: '#c15f3c',
     swatch: {
@@ -103,11 +103,6 @@ export const LAYOUTS: LayoutMeta[] = [
     id: 'dashboard',
     name: 'Dashboard',
     description: 'Wide canvas with hero on top and a links grid',
-  },
-  {
-    id: 'focus',
-    name: 'Focus',
-    description: 'Just the search bar, nothing else',
   },
 ]
 

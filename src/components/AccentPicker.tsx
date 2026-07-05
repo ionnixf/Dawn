@@ -8,7 +8,6 @@ const PRESETS = [
   { name: 'Amber',      hex: '#c89028' },
   { name: 'Slate Blue', hex: '#5d7a9a' },
   { name: 'Plum',       hex: '#8e5a7a' },
-  { name: 'Rust',       hex: '#a04020' },
   { name: 'Forest',     hex: '#3f7a5e' },
   { name: 'Ocean',      hex: '#3d7a85' },
 ]

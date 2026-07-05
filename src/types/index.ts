@@ -1,7 +1,7 @@
 export type WidgetId = 'promptBar' | 'quickLinks' | 'dateTime' | 'greeting'
 
-export type ThemeId = 'cloud-code' | 'forest' | 'midnight' | 'glass'
-export type LayoutId = 'centered' | 'sidebar' | 'dashboard' | 'focus'
+export type ThemeId = 'claude-code' | 'forest' | 'midnight' | 'glass'
+export type LayoutId = 'centered' | 'sidebar' | 'dashboard'
 export type Density = 'comfortable' | 'compact'
 export type Mode = 'dark' | 'light'
 export type Backdrop = 'aurora' | 'starfield' | 'topo' | 'gradient'

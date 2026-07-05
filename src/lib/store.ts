@@ -43,11 +43,22 @@ interface PersistedState {
 function loadState(): PersistedState {
   try {
     const raw = localStorage.getItem('claude-home-config')
-    if (raw) return JSON.parse(raw) as PersistedState
+    if (raw) {
+      const parsed = JSON.parse(raw) as PersistedState
+      // Data migration: cloud-code -> claude-code
+      if (parsed.themeId === 'cloud-code' as any) {
+        parsed.themeId = 'claude-code'
+      }
+      // Data migration: focus layout -> centered layout
+      if (parsed.layoutId === 'focus' as any) {
+        parsed.layoutId = 'centered'
+      }
+      return parsed
+    }
   } catch { /* ignore */ }
   return {
     theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
-    themeId: 'cloud-code',
+    themeId: 'claude-code',
     layoutId: 'centered',
     density: 'comfortable',
     bgType: 'default',
@@ -92,7 +103,7 @@ function applyAppearance(theme: 'dark' | 'light', themeId: ThemeId, layoutId: La
 export const useStore = create<AppState>((set, get) => ({
   // ── State ──
   theme: persisted.theme ?? 'dark',
-  themeId: persisted.themeId ?? 'cloud-code',
+  themeId: persisted.themeId ?? 'claude-code',
   layoutId: persisted.layoutId ?? 'centered',
   density: persisted.density ?? 'comfortable',
   bgType: persisted.bgType ?? 'default',
@@ -227,7 +238,7 @@ export const useStore = create<AppState>((set, get) => ({
  */
 applyAppearance(
   persisted.theme ?? 'dark',
-  persisted.themeId ?? 'cloud-code',
+  persisted.themeId ?? 'claude-code',
   persisted.layoutId ?? 'centered',
   persisted.density ?? 'comfortable',
   persisted.bgType ?? 'default',
@@ -236,7 +247,7 @@ applyAppearance(
 // Compare against the active theme's default — only inline-override the
 // CSS var when the user actually picked something different.
 {
-  const themeDefault = getTheme(persisted.themeId ?? 'cloud-code').defaultAccent
+  const themeDefault = getTheme(persisted.themeId ?? 'claude-code').defaultAccent
   if (persisted.accentColor && persisted.accentColor !== themeDefault) {
     document.documentElement.style.setProperty('--cl-accent', persisted.accentColor)
   }
