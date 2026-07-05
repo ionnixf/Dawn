@@ -197,7 +197,7 @@
   --cl-fg: #0f172a;
   --cl-muted: #475569;
   --cl-dim: #64748b;
-  --cl-accent: #2563eb;
+  --cl-accent: #475569;
   --cl-accent-hover: color-mix(in srgb, var(--cl-accent) 78%, #000);
   --cl-accent-subtle: color-mix(in srgb, var(--cl-accent) 14%, #ffffff);
   --cl-accent-glow: color-mix(in srgb, var(--cl-accent) 25%, transparent);
@@ -222,7 +222,7 @@
   --cl-fg: #f8fafc;
   --cl-muted: #94a3b8;
   --cl-dim: #64748b;
-  --cl-accent: #38bdf8;
+  --cl-accent: #cbd5e1;
   --cl-accent-hover: color-mix(in srgb, var(--cl-accent) 72%, #fff);
   --cl-accent-subtle: color-mix(in srgb, var(--cl-accent) 18%, var(--cl-canvas));
   --cl-accent-glow: color-mix(in srgb, var(--cl-accent) 30%, transparent);

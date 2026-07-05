@@ -71,13 +71,13 @@ export const THEMES: ThemeMeta[] = [
     id: 'glass',
     name: 'Glass',
     backdrop: 'gradient',
-    defaultAccent: '#a888ff',
+    defaultAccent: '#cbd5e1',
     swatch: {
-      lightCanvas: '#fdf6f0',
+      lightCanvas: '#f4f6fa',
       lightPanel: '#ffffff',
-      darkCanvas: '#1c1a2e',
-      darkPanel: '#2a2742',
-      accent: '#a888ff',
+      darkCanvas: '#080a10',
+      darkPanel: '#0d111e',
+      accent: '#cbd5e1',
     },
   },
 ]
