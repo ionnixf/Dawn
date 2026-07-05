@@ -1,5 +1,14 @@
 import { create } from 'zustand'
-import type { AppState, QuickLink, WidgetConfig, WidgetId } from '../types'
+import { getTheme } from './themes'
+import type {
+  AppState,
+  QuickLink,
+  WidgetConfig,
+  WidgetId,
+  ThemeId,
+  LayoutId,
+  Density,
+} from '../types'
 
 const DEFAULT_WIDGETS: WidgetConfig[] = [
   { id: 'greeting', visible: true },
@@ -16,14 +25,19 @@ const DEFAULT_LINKS: QuickLink[] = [
 ]
 
 interface PersistedState {
-  theme: 'dark' | 'light'
+  // legacy dark/light mode
+  theme?: 'dark' | 'light'
+  themeId?: ThemeId
+  layoutId?: LayoutId
+  density?: Density
+  bgType?: 'default' | 'photo'
   widgetOrder: WidgetId[]
   widgetVisibility: Record<WidgetId, boolean>
   quickLinks: QuickLink[]
   greetingName: string
   searchEngine: 'google' | 'duckduckgo' | 'bing'
   showBranding: boolean
-  accentColor: string
+  accentColor?: string
 }
 
 function loadState(): PersistedState {
@@ -33,6 +47,10 @@ function loadState(): PersistedState {
   } catch { /* ignore */ }
   return {
     theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+    themeId: 'cloud-code',
+    layoutId: 'centered',
+    density: 'comfortable',
+    bgType: 'default',
     widgetOrder: DEFAULT_WIDGETS.map((w) => w.id),
     widgetVisibility: Object.fromEntries(
       DEFAULT_WIDGETS.map((w) => [w.id, w.visible]),
@@ -53,9 +71,31 @@ function saveState(state: PersistedState) {
 
 const persisted = loadState()
 
+/**
+ * Sync every appearance axis to <html> as data-attributes / classes.
+ * CSS reads them; JS never re-implements styling.
+ */
+function applyAppearance(theme: 'dark' | 'light', themeId: ThemeId, layoutId: LayoutId, density: Density, bgType: 'default' | 'photo') {
+  const el = document.documentElement
+  // mode — set BOTH the legacy .dark/.light class (for any leftover dark: utilities
+  // and the @custom-variant) AND the new data-mode attribute.
+  el.classList.toggle('dark', theme === 'dark')
+  el.classList.toggle('light', theme === 'light')
+  el.dataset.mode = theme
+  el.dataset.theme = themeId
+  el.dataset.layout = layoutId
+  el.dataset.density = density
+  el.dataset.bg = bgType
+  el.dataset.backdrop = getTheme(themeId).backdrop
+}
+
 export const useStore = create<AppState>((set, get) => ({
   // ── State ──
-  theme: persisted.theme,
+  theme: persisted.theme ?? 'dark',
+  themeId: persisted.themeId ?? 'cloud-code',
+  layoutId: persisted.layoutId ?? 'centered',
+  density: persisted.density ?? 'comfortable',
+  bgType: persisted.bgType ?? 'default',
   widgets: persisted.widgetOrder.map((id) => ({
     id,
     visible: persisted.widgetVisibility[id] ?? true,
@@ -67,18 +107,54 @@ export const useStore = create<AppState>((set, get) => ({
   accentColor: persisted.accentColor || '#c15f3c',
   editing: false,
 
-  // ── Theme ──
+  // ── Mode (dark/light) ──
   setTheme: (theme) => {
     set({ theme })
-    const el = document.documentElement
-    el.classList.toggle('dark', theme === 'dark')
-    el.classList.toggle('light', theme === 'light')
+    const s = get()
+    applyAppearance(theme, s.themeId, s.layoutId, s.density, s.bgType)
     persist(get())
   },
 
   toggleTheme: () => {
     const next = get().theme === 'dark' ? 'light' : 'dark'
     get().setTheme(next)
+  },
+
+  // ── Theme (palette/aesthetic) ──
+  // Switching theme resets the accent to that theme's default — accent is
+  // part of the theme's identity. The user can re-override afterwards.
+  setThemeId: (themeId) => {
+    const defaultAccent = getTheme(themeId).defaultAccent
+    set({ themeId, accentColor: defaultAccent })
+    // clear any previous inline override so the theme's value takes effect
+    document.documentElement.style.removeProperty('--cl-accent')
+    const s = get()
+    applyAppearance(s.theme, themeId, s.layoutId, s.density, s.bgType)
+    persist(get())
+  },
+
+  // ── Layout ──
+  setLayoutId: (layoutId) => {
+    set({ layoutId })
+    const s = get()
+    applyAppearance(s.theme, s.themeId, layoutId, s.density, s.bgType)
+    persist(get())
+  },
+
+  // ── Density ──
+  setDensity: (density) => {
+    set({ density })
+    const s = get()
+    applyAppearance(s.theme, s.themeId, s.layoutId, density, s.bgType)
+    persist(get())
+  },
+
+  // ── BgType (default/photo) ──
+  setBgType: (bgType) => {
+    set({ bgType })
+    const s = get()
+    applyAppearance(s.theme, s.themeId, s.layoutId, s.density, bgType)
+    persist(get())
   },
 
   // ── Widgets ──
@@ -145,9 +221,34 @@ export const useStore = create<AppState>((set, get) => ({
   },
 }))
 
+/**
+ * Apply the loaded appearance ONCE on module init so the very first paint
+ * already has the right data-attributes (avoids a flash of default theme).
+ */
+applyAppearance(
+  persisted.theme ?? 'dark',
+  persisted.themeId ?? 'cloud-code',
+  persisted.layoutId ?? 'centered',
+  persisted.density ?? 'comfortable',
+  persisted.bgType ?? 'default',
+)
+// Re-apply the saved accent override (if any) so it survives reload.
+// Compare against the active theme's default — only inline-override the
+// CSS var when the user actually picked something different.
+{
+  const themeDefault = getTheme(persisted.themeId ?? 'cloud-code').defaultAccent
+  if (persisted.accentColor && persisted.accentColor !== themeDefault) {
+    document.documentElement.style.setProperty('--cl-accent', persisted.accentColor)
+  }
+}
+
 function persist(state: AppState) {
   saveState({
     theme: state.theme,
+    themeId: state.themeId,
+    layoutId: state.layoutId,
+    density: state.density,
+    bgType: state.bgType,
     widgetOrder: state.widgets.map((w) => w.id),
     widgetVisibility: Object.fromEntries(
       state.widgets.map((w) => [w.id, w.visible]),

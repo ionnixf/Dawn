@@ -25,7 +25,7 @@ export default function Greeting() {
       <h1
         className="text-fg font-semibold"
         style={{
-          fontFamily: '"Source Serif 4", Georgia, serif',
+          fontFamily: 'var(--cl-font-serif, "Source Serif 4", Georgia, serif)',
           fontSize: 'clamp(2.25rem, 5.5vw, 3.5rem)',
           lineHeight: 1.2,
           letterSpacing: '-0.025em',
@@ -42,7 +42,7 @@ export default function Greeting() {
         <p
           className="text-muted/40 mt-3 uppercase select-none"
           style={{
-            fontFamily: '"DM Mono", "JetBrains Mono", ui-monospace, monospace',
+            fontFamily: 'var(--cl-font-mono, "DM Mono", "JetBrains Mono", ui-monospace, monospace)',
             fontSize: 'clamp(9px, 1.5vw, 11px)',
             letterSpacing: '0.35em',
           }}

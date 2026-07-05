@@ -31,21 +31,15 @@ const WIDGET_MAP: Record<WidgetId, React.ReactNode> = {
   quickLinks: <QuickLinks />,
 }
 
-const WIDGET_CLASSES: Record<WidgetId, string> = {
-  greeting: 'w-full',
-  dateTime: 'w-full',
-  promptBar: 'w-full',
-  quickLinks: 'w-full',
-}
-
 interface SortableWidgetProps {
   id: WidgetId
   isDragging?: boolean
   index: number
   editing: boolean
+  fullWidth?: boolean
 }
 
-function SortableWidget({ id, isDragging, index, editing }: SortableWidgetProps) {
+function SortableWidget({ id, isDragging, index, editing, fullWidth }: SortableWidgetProps) {
   const {
     attributes,
     listeners,
@@ -67,9 +61,10 @@ function SortableWidget({ id, isDragging, index, editing }: SortableWidgetProps)
       ref={setNodeRef}
       style={style}
       className={`
-        relative widget-enter ${WIDGET_CLASSES[id]} w-full
+        relative widget-enter w-full
+        ${fullWidth ? '' : 'max-w-xl mx-auto'}
         ${isDragging ? 'z-50' : ''}
-        ${editing ? 'ring-1 ring-accent/20 rounded-xl' : ''}
+        ${editing ? 'ring-1 ring-accent/20 rounded-[var(--cl-radius)]' : ''}
         ${isSortDragging ? 'ring-2 ring-accent/40' : ''}
       `}
     >
@@ -93,10 +88,125 @@ function SortableWidget({ id, isDragging, index, editing }: SortableWidgetProps)
   )
 }
 
+function CenteredList({
+  visibleWidgets,
+  editing,
+  activeId,
+}: {
+  visibleWidgets: { id: WidgetId }[]
+  editing: boolean
+  activeId: WidgetId | null
+}) {
+  return (
+    <div
+      className="flex flex-col items-center w-full max-w-xl mx-auto"
+      style={{ rowGap: `var(${editing ? '--w-gap-edit' : '--w-gap'})` }}
+    >
+      {visibleWidgets.map((w, i) => (
+        <SortableWidget
+          key={w.id}
+          id={w.id}
+          isDragging={w.id === activeId}
+          index={i}
+          editing={editing}
+        />
+      ))}
+    </div>
+  )
+}
+
+function DashboardList({
+  visibleWidgets,
+  editing,
+  activeId,
+}: {
+  visibleWidgets: { id: WidgetId }[]
+  editing: boolean
+  activeId: WidgetId | null
+}) {
+  // Wide vertical stack; widgets naturally fill the wider container.
+  // Quick Links' internal grid promotes to 3 columns at lg via index.css.
+  return (
+    <div
+      className="flex flex-col items-center w-full max-w-5xl mx-auto"
+      style={{ rowGap: `var(${editing ? '--w-gap-edit' : '--w-gap'})` }}
+    >
+      {visibleWidgets.map((w, i) => (
+        <SortableWidget
+          key={w.id}
+          id={w.id}
+          isDragging={w.id === activeId}
+          index={i}
+          editing={editing}
+          fullWidth
+        />
+      ))}
+    </div>
+  )
+}
+
+function SidebarList({
+  visibleWidgets,
+  editing,
+  activeId,
+}: {
+  visibleWidgets: { id: WidgetId }[]
+  editing: boolean
+  activeId: WidgetId | null
+}) {
+  // Vertically stacked sidebar column, left-aligned on desktop.
+  return (
+    <div
+      className="flex flex-col items-stretch w-full max-w-sm md:ml-12 md:mr-auto my-auto"
+      style={{ rowGap: `var(${editing ? '--w-gap-edit' : '--w-gap'})` }}
+    >
+      {visibleWidgets.map((w, i) => (
+        <SortableWidget
+          key={w.id}
+          id={w.id}
+          isDragging={w.id === activeId}
+          index={i}
+          editing={editing}
+          fullWidth
+        />
+      ))}
+    </div>
+  )
+}
+
+/**
+ * Focus view: only the prompt bar, no drag-reorder (nothing to reorder).
+ * Rendered OUTSIDE the DndContext — DnD only makes sense in Centered/Dashboard.
+ */
+function FocusView({ visibleWidgets }: { visibleWidgets: { id: WidgetId }[] }) {
+  const promptVisible = visibleWidgets.some((w) => w.id === 'promptBar')
+  const hiddenCount = visibleWidgets.filter((w) => w.id !== 'promptBar').length
+
+  return (
+    <div className="flex flex-col items-center w-full max-w-xl mx-auto">
+      {promptVisible ? (
+        <div className="widget-enter w-full">
+          {WIDGET_MAP.promptBar}
+        </div>
+      ) : null}
+      {!promptVisible ? (
+        <p className="font-mono text-xs text-dim/60 py-8 text-center">
+          Prompt bar is hidden — show it in settings to use Focus.
+        </p>
+      ) : hiddenCount > 0 ? (
+        <p className="font-mono text-[11px] text-dim/50 mt-4 text-center select-none">
+          {hiddenCount} hidden in Focus view
+        </p>
+      ) : null}
+    </div>
+  )
+}
+
 export default function WidgetGrid() {
   const widgets = useStore((s) => s.widgets)
   const reorderWidgets = useStore((s) => s.reorderWidgets)
   const editing = useStore((s) => s.editing)
+  const layoutId = useStore((s) => s.layoutId)
   const [activeId, setActiveId] = useState<WidgetId | null>(null)
 
   const sensors = useSensors(
@@ -141,6 +251,11 @@ export default function WidgetGrid() {
     reorderWidgets(merged)
   }
 
+  // Focus view: rendered outside DndContext — no reorder, just the prompt bar.
+  if (layoutId === 'focus') {
+    return <FocusView visibleWidgets={visibleWidgets} />
+  }
+
   if (visibleWidgets.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center select-none">
@@ -154,6 +269,8 @@ export default function WidgetGrid() {
     )
   }
 
+  const listProps = { visibleWidgets, editing, activeId }
+
   return (
     <DndContext
       sensors={sensors}
@@ -165,28 +282,16 @@ export default function WidgetGrid() {
         items={visibleWidgets.map((w) => w.id)}
         strategy={verticalListSortingStrategy}
       >
-        <div
-          className={`flex flex-col items-center w-full ${
-            editing ? 'gap-5' : 'gap-4'
-          }`}
-        >
-          {visibleWidgets.map((w, i) => (
-            <SortableWidget
-              key={w.id}
-              id={w.id}
-              isDragging={w.id === activeId}
-              index={i}
-              editing={editing}
-            />
-          ))}
-        </div>
+        {layoutId === 'centered' && <CenteredList {...listProps} />}
+        {layoutId === 'sidebar' && <SidebarList {...listProps} />}
+        {layoutId === 'dashboard' && <DashboardList {...listProps} />}
       </SortableContext>
 
       <DragOverlay dropAnimation={null}>
         {activeId ? (
           <div
-            className={`${WIDGET_CLASSES[activeId]} w-full opacity-90
-              ring-2 ring-accent/30 rounded-xl shadow-lg shadow-black/10`}
+            className="w-full max-w-xl opacity-90
+              ring-2 ring-accent/30 rounded-[var(--cl-radius)] shadow-lg shadow-black/10"
           >
             {WIDGET_MAP[activeId]}
           </div>

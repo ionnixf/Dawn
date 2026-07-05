@@ -2,7 +2,24 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ── Dawn Design Tokens ────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════
+   Dawn — Theme System
+   ───────────────────────────────────────────────────────────────────
+   Appearance is driven by data-attributes on <html>:
+     data-theme    cloud-code | forest | midnight | glass
+     data-mode     light | dark          (the existing dark/light axis)
+     data-layout   centered | dashboard | focus
+     data-density  comfortable | compact
+     data-backdrop aurora | starfield | topo | gradient
+   Components read semantic tokens (--cl-*); they never branch on theme.
+
+   `:root` and `.dark` carry the CLOUD CODE defaults so existing users
+   (no data-theme attribute yet) and any leftover `dark:` utilities keep
+   rendering identically. Each [data-theme="..."] block overrides the
+   full token set for its [data-mode].
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Defaults (Cloud Code) ──────────────────────────────────── */
 
 :root {
   --cl-canvas: #faf9f5;
@@ -21,8 +38,28 @@
   --cl-error: #a84b3a;
   --cl-success: #2e7c4c;
   --cl-status: #e5e2d8;
+
+  /* material tokens (new) */
+  --cl-radius: 0.75rem;            /* maps to rounded-xl */
+  --cl-panel-alpha: 1;             /* panel opacity — Glass lowers this */
+  --cl-panel-blur: none;           /* backdrop-filter — Glass uses blur() */
+  --cl-panel-border: var(--cl-line);
+  --cl-panel-shadow: none;
+
+  /* layout tokens (new) — density overrides these */
+  --w-gap: 1rem;                   /* gap between widgets */
+  --w-gap-edit: 1.25rem;           /* gap while editing */
+  --w-pad: 1.5rem;                 /* widget-card internal padding */
+
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-smooth: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Fonts & Transitions */
+  --cl-font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --cl-font-mono: "DM Mono", "JetBrains Mono", ui-monospace, monospace;
+  --cl-font-serif: "Source Serif 4", Georgia, serif;
+  --cl-transition-duration: 250ms;
+  --cl-transition-timing: var(--ease-out-expo);
 }
 
 .dark {
@@ -44,6 +81,190 @@
   --cl-status: #141311;
 }
 
+/* ── Forest ─────────────────────────────────────────────────── */
+
+[data-theme="forest"][data-mode="light"] {
+  --cl-canvas: #eef0e8;
+  --cl-panel: #e3e6da;
+  --cl-panel-hover: #d7dbcc;
+  --cl-input: #dfe2d2;
+  --cl-line: #d2d6c6;
+  --cl-line-strong: #b9bfac;
+  --cl-fg: #1f2419;
+  --cl-muted: #5d6552;
+  --cl-dim: #8b927a;
+  --cl-accent: #6b8e6b;
+  --cl-accent-hover: color-mix(in srgb, var(--cl-accent) 78%, #000);
+  --cl-accent-subtle: color-mix(in srgb, var(--cl-accent) 12%, var(--cl-canvas));
+  --cl-accent-glow: color-mix(in srgb, var(--cl-accent) 16%, transparent);
+  --cl-error: #a84b3a;
+  --cl-success: #4f7a4f;
+  --cl-status: #d7dbcc;
+
+  --cl-panel-shadow: 0 8px 30px -10px rgba(45, 60, 40, 0.08);
+}
+[data-theme="forest"][data-mode="dark"] {
+  --cl-canvas: #12150f;
+  --cl-panel: #1a1f15;
+  --cl-panel-hover: #232a1c;
+  --cl-input: #1e2418;
+  --cl-line: #2a3022;
+  --cl-line-strong: #3a4230;
+  --cl-fg: #d6dccd;
+  --cl-muted: #9aa288;
+  --cl-dim: #6f7560;
+  --cl-accent: #7da67d;
+  --cl-accent-hover: color-mix(in srgb, var(--cl-accent) 72%, #fff);
+  --cl-accent-subtle: color-mix(in srgb, var(--cl-accent) 16%, var(--cl-canvas));
+  --cl-accent-glow: color-mix(in srgb, var(--cl-accent) 22%, transparent);
+  --cl-error: #d47563;
+  --cl-success: #9aca86;
+  --cl-status: #0f120c;
+
+  --cl-panel-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.4);
+}
+[data-theme="forest"] {
+  --cl-font-sans: "Plus Jakarta Sans", "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --cl-font-mono: "DM Mono", "JetBrains Mono", ui-monospace, monospace;
+  --cl-font-serif: "Lora", Georgia, serif;
+  --cl-radius: 1.5rem;
+  --cl-panel-border: 2px solid var(--cl-line-strong);
+  --cl-transition-duration: 400ms;
+  --cl-transition-timing: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ── Midnight ───────────────────────────────────────────────── */
+
+[data-theme="midnight"][data-mode="light"] {
+  --cl-canvas: #e8ecf4;
+  --cl-panel: #dce2ee;
+  --cl-panel-hover: #cdd5e3;
+  --cl-input: #d4dbe9;
+  --cl-line: #c8d0e0;
+  --cl-line-strong: #aab5cc;
+  --cl-fg: #0f1729;
+  --cl-muted: #5a6788;
+  --cl-dim: #8590aa;
+  --cl-accent: #5a72ff;
+  --cl-accent-hover: color-mix(in srgb, var(--cl-accent) 78%, #000);
+  --cl-accent-subtle: color-mix(in srgb, var(--cl-accent) 12%, var(--cl-canvas));
+  --cl-accent-glow: color-mix(in srgb, var(--cl-accent) 18%, transparent);
+  --cl-error: #a84b3a;
+  --cl-success: #2e7c4c;
+  --cl-status: #cdd5e3;
+
+  --cl-panel-shadow: 0 0 10px -2px rgba(90, 114, 255, 0.15), 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+[data-theme="midnight"][data-mode="dark"] {
+  --cl-canvas: #0d1117;
+  --cl-panel: #161b26;
+  --cl-panel-hover: #1f2533;
+  --cl-input: #1a2030;
+  --cl-line: #252b3a;
+  --cl-line-strong: #353d50;
+  --cl-fg: #c9d4e8;
+  --cl-muted: #7d8aa5;
+  --cl-dim: #5b6478;
+  --cl-accent: #7c8cff;
+  --cl-accent-hover: color-mix(in srgb, var(--cl-accent) 72%, #fff);
+  --cl-accent-subtle: color-mix(in srgb, var(--cl-accent) 16%, var(--cl-canvas));
+  --cl-accent-glow: color-mix(in srgb, var(--cl-accent) 24%, transparent);
+  --cl-error: #d47563;
+  --cl-success: #9aca86;
+  --cl-status: #080b10;
+
+  --cl-panel-shadow: 0 0 16px -2px rgba(124, 140, 255, 0.22), 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+[data-theme="midnight"] {
+  --cl-font-sans: "Space Grotesk", "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --cl-font-mono: "Space Mono", ui-monospace, monospace;
+  --cl-font-serif: "Space Grotesk", sans-serif;
+  --cl-radius: 0.25rem;
+  --cl-panel-border: 1px solid var(--cl-line-strong);
+  --cl-transition-duration: 180ms;
+  --cl-transition-timing: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* ── Glass (Liquid Glass Redesign) ──────────────────────────── */
+
+[data-theme="glass"][data-mode="light"] {
+  --cl-canvas: #f4f6fa;
+  --cl-panel: rgba(255, 255, 255, 0.35);
+  --cl-panel-hover: rgba(255, 255, 255, 0.45);
+  --cl-input: rgba(255, 255, 255, 0.25);
+  --cl-line: rgba(15, 23, 42, 0.08);
+  --cl-line-strong: rgba(15, 23, 42, 0.15);
+  --cl-fg: #0f172a;
+  --cl-muted: #475569;
+  --cl-dim: #64748b;
+  --cl-accent: #2563eb;
+  --cl-accent-hover: color-mix(in srgb, var(--cl-accent) 78%, #000);
+  --cl-accent-subtle: color-mix(in srgb, var(--cl-accent) 14%, #ffffff);
+  --cl-accent-glow: color-mix(in srgb, var(--cl-accent) 25%, transparent);
+  --cl-error: #b91c1c;
+  --cl-success: #15803d;
+  --cl-status: rgba(255, 255, 255, 0.4);
+
+  --cl-panel-border: rgba(255, 255, 255, 0.4);
+  --cl-panel-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+[data-theme="glass"][data-mode="dark"] {
+  --cl-canvas: #0a0e17;
+  --cl-panel: rgba(15, 23, 42, 0.35);
+  --cl-panel-hover: rgba(30, 41, 59, 0.45);
+  --cl-input: rgba(15, 23, 42, 0.4);
+  --cl-line: rgba(255, 255, 255, 0.08);
+  --cl-line-strong: rgba(255, 255, 255, 0.15);
+  --cl-fg: #f8fafc;
+  --cl-muted: #94a3b8;
+  --cl-dim: #64748b;
+  --cl-accent: #38bdf8;
+  --cl-accent-hover: color-mix(in srgb, var(--cl-accent) 72%, #fff);
+  --cl-accent-subtle: color-mix(in srgb, var(--cl-accent) 18%, var(--cl-canvas));
+  --cl-accent-glow: color-mix(in srgb, var(--cl-accent) 30%, transparent);
+  --cl-error: #f87171;
+  --cl-success: #4ade80;
+  --cl-status: rgba(15, 23, 42, 0.5);
+
+  --cl-panel-border: rgba(255, 255, 255, 0.06);
+  --cl-panel-shadow: 0 24px 48px -20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+[data-theme="glass"] {
+  --cl-font-sans: "Plus Jakarta Sans", "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --cl-font-mono: "DM Mono", "JetBrains Mono", ui-monospace, monospace;
+  --cl-font-serif: "Plus Jakarta Sans", sans-serif;
+  --cl-radius: 1.75rem;
+  --cl-panel-blur: blur(24px);
+  --cl-panel-alpha: 1;
+  --cl-transition-duration: 350ms;
+  --cl-transition-timing: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  [data-theme="glass"][data-mode="light"] {
+    --cl-panel: #ffffff;
+    --cl-panel-blur: none;
+    --cl-panel-border: var(--cl-line);
+  }
+  [data-theme="glass"][data-mode="dark"] {
+    --cl-panel: #0f172a;
+    --cl-panel-blur: none;
+    --cl-panel-border: var(--cl-line);
+  }
+}
+
+/* ── Density ────────────────────────────────────────────────── */
+
+[data-density="compact"] {
+  --w-gap: 0.5rem;
+  --w-gap-edit: 0.625rem;
+  --w-pad: 1rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Tailwind theme bridge
+   ═══════════════════════════════════════════════════════════════ */
+
 @theme inline {
   --color-canvas: var(--cl-canvas);
   --color-panel: var(--cl-panel);
@@ -60,22 +281,25 @@
   --color-error: var(--cl-error);
   --color-success: var(--cl-success);
   --color-status: var(--cl-status);
-  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "DM Mono", "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: var(--cl-font-sans);
+  --font-mono: var(--cl-font-mono);
+  --font-serif: var(--cl-font-serif);
 }
 
-/* ── Base ──────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════
+   Base
+   ═══════════════════════════════════════════════════════════════ */
 
 * {
-  transition-property: color, background-color, border-color;
-  transition-duration: 250ms;
-  transition-timing-function: var(--ease-out-expo);
+  transition-property: color, background-color, border-color, border-radius, box-shadow;
+  transition-duration: var(--cl-transition-duration, 250ms);
+  transition-timing-function: var(--cl-transition-timing, var(--ease-out-expo));
 }
 
 html {
   background-color: var(--cl-canvas);
   color: var(--cl-fg);
-  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--cl-font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -86,8 +310,54 @@ html {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--cl-line); border-radius: 3px; }
 
-/* ── Aurora Background ─────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════
+   Backdrops — selected via data-backdrop on <html>.
+   Each strategy is independent; the .backdrop element lives in App.tsx.
+   ═══════════════════════════════════════════════════════════════ */
 
+.backdrop {
+  position: fixed; inset: 0; z-index: -10;
+  pointer-events: none; overflow: hidden;
+}
+
+.backdrop__photo {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 800ms var(--ease-in-out-smooth);
+  z-index: -5;
+}
+[data-bg="photo"] .backdrop__photo {
+  opacity: 1;
+}
+
+.backdrop__overlay {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 800ms var(--ease-in-out-smooth);
+  z-index: -4;
+}
+[data-bg="photo"] .backdrop__overlay {
+  opacity: 1;
+}
+[data-bg="photo"][data-mode="light"] .backdrop__overlay {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+[data-bg="photo"][data-mode="dark"] .backdrop__overlay {
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+/* Hide default backdrop layers when photo bg is active */
+[data-bg="photo"] .backdrop__layer,
+[data-bg="photo"] .backdrop__layer--1,
+[data-bg="photo"] .backdrop__layer--2,
+[data-bg="photo"] .backdrop__layer--glow {
+  opacity: 0 !important;
+  transition: opacity 800ms var(--ease-in-out-smooth);
+}
+
+/* — Aurora (Cloud Code) — two drifting accent-glow blobs */
 @keyframes aurora-drift-1 {
   0%, 100% { transform: translate(-10%, -5%) scale(1); }
   33% { transform: translate(15%, 10%) scale(1.2); }
@@ -101,30 +371,121 @@ html {
   0%, 100% { opacity: 0.5; }
   50% { opacity: 1; }
 }
-.aurora {
-  position: fixed; inset: 0; z-index: -10;
-  pointer-events: none; overflow: hidden;
-}
-.aurora::before, .aurora::after {
-  content: ""; position: absolute;
+[data-backdrop="aurora"] .backdrop__layer {
+  position: absolute;
   width: 50vw; height: 50vw; border-radius: 50%;
   filter: blur(100px);
-}
-.aurora::before {
-  top: -25%; left: 15%;
   background: radial-gradient(circle, var(--cl-accent-glow), transparent 70%);
+}
+[data-backdrop="aurora"] .backdrop__layer--1 {
+  top: -25%; left: 15%;
   animation: aurora-drift-1 20s ease-in-out infinite, aurora-pulse 8s ease-in-out infinite;
 }
-.aurora::after {
+[data-backdrop="aurora"] .backdrop__layer--2 {
   bottom: -25%; right: 10%;
-  background: radial-gradient(circle, var(--cl-accent-glow), transparent 70%);
   animation: aurora-drift-2 25s ease-in-out infinite, aurora-pulse 10s ease-in-out infinite 2s;
 }
-@media (prefers-reduced-motion: reduce) {
-  .aurora::before, .aurora::after { animation: none; }
+
+/* — Starfield (Midnight) — slow radial-dot drift */
+@keyframes starfield-drift {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-200px, -120px, 0); }
+}
+[data-backdrop="starfield"] .backdrop__layer {
+  position: absolute;
+  inset: -50%;
+  background-image:
+    radial-gradient(1px 1px at 20px 30px, color-mix(in srgb, var(--cl-fg) 45%, transparent), transparent),
+    radial-gradient(1px 1px at 140px 80px, color-mix(in srgb, var(--cl-fg) 35%, transparent), transparent),
+    radial-gradient(1.5px 1.5px at 320px 200px, color-mix(in srgb, var(--cl-accent) 50%, transparent), transparent),
+    radial-gradient(1px 1px at 480px 60px, color-mix(in srgb, var(--cl-fg) 30%, transparent), transparent),
+    radial-gradient(1px 1px at 600px 320px, color-mix(in srgb, var(--cl-fg) 40%, transparent), transparent);
+  background-size: 700px 400px;
+  animation: starfield-drift 90s linear infinite;
+  opacity: 0.8;
+}
+[data-backdrop="starfield"] .backdrop__layer--glow {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(60vw 60vw at 75% 15%, color-mix(in srgb, var(--cl-accent) 10%, transparent), transparent 60%),
+    radial-gradient(50vw 50vw at 15% 85%, color-mix(in srgb, var(--cl-accent) 8%, transparent), transparent 60%);
+  filter: blur(40px);
+  animation: aurora-pulse 14s ease-in-out infinite;
 }
 
-/* ── Entry Animation ───────────────────────────────────────── */
+/* — Topo (Forest) — faint repeating contour lines */
+@keyframes topo-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(-30px, -20px, 0) rotate(0.5deg); }
+}
+[data-backdrop="topo"] .backdrop__layer {
+  position: absolute;
+  inset: -25%;
+  background-image:
+    repeating-radial-gradient(
+      circle at 30% 40%,
+      transparent 0,
+      transparent 38px,
+      color-mix(in srgb, var(--cl-accent) 7%, transparent) 38px,
+      color-mix(in srgb, var(--cl-accent) 7%, transparent) 40px
+    ),
+    repeating-radial-gradient(
+      circle at 70% 65%,
+      transparent 0,
+      transparent 52px,
+      color-mix(in srgb, var(--cl-accent) 5%, transparent) 52px,
+      color-mix(in srgb, var(--cl-accent) 5%, transparent) 54px
+    );
+  animation: topo-drift 40s ease-in-out infinite;
+  opacity: 0.7;
+}
+[data-backdrop="topo"] .backdrop__layer--glow {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(50vw 50vw at 20% 80%, color-mix(in srgb, var(--cl-accent) 10%, transparent), transparent 60%);
+  filter: blur(60px);
+  animation: aurora-pulse 16s ease-in-out infinite;
+}
+
+/* — Gradient (Glass) — animated peach→magenta→indigo wash */
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+[data-backdrop="gradient"][data-mode="light"] .backdrop__layer {
+  position: absolute; inset: -10%;
+  background: linear-gradient(125deg, #eff6ff, #e0e7ff, #fae8ff, #ccfbf1, #eff6ff);
+  background-size: 300% 300%;
+  animation: gradient-shift 25s ease infinite;
+  filter: blur(0px);
+}
+[data-backdrop="gradient"][data-mode="dark"] .backdrop__layer {
+  position: absolute; inset: -10%;
+  background: linear-gradient(125deg, #090d16, #0f172a, #1e1b4b, #111827, #090d16);
+  background-size: 300% 300%;
+  animation: gradient-shift 25s ease infinite;
+}
+[data-backdrop="gradient"][data-mode="dark"] .backdrop__layer--1 {
+  position: absolute;
+  width: 60vw; height: 60vw; border-radius: 50%;
+  top: -20%; left: -10%;
+  background: radial-gradient(circle, color-mix(in srgb, #38bdf8 30%, transparent), transparent 70%);
+  filter: blur(80px);
+  animation: aurora-drift-1 26s ease-in-out infinite;
+}
+
+/* — Reduced motion: freeze every backdrop — */
+@media (prefers-reduced-motion: reduce) {
+  [data-backdrop] .backdrop__layer,
+  [data-backdrop] .backdrop__layer--1,
+  [data-backdrop] .backdrop__layer--2,
+  [data-backdrop] .backdrop__layer--glow { animation: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Entry animation & tactile feedback
+   ═══════════════════════════════════════════════════════════════ */
 
 @keyframes widget-enter {
   from { opacity: 0; transform: translateY(18px); }
@@ -134,13 +495,37 @@ html {
   animation: widget-enter 0.8s var(--ease-in-out-smooth) both;
 }
 
-/* ── Tactile Feedback ──────────────────────────────────────── */
-
 .tactile { transition: transform 150ms var(--ease-out-expo); }
 .tactile:active { transform: scale(0.97); }
 
-/* ── Utilities ─────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════
+   Utilities
+   ═══════════════════════════════════════════════════════════════ */
 
 @utility widget-card {
-  @apply bg-panel border border-line rounded-xl p-6;
+  background-color: color-mix(in srgb, var(--cl-panel) calc(var(--cl-panel-alpha) * 100%), transparent);
+  backdrop-filter: var(--cl-panel-blur);
+  -webkit-backdrop-filter: var(--cl-panel-blur);
+  border: 1px solid var(--cl-panel-border);
+  border-radius: var(--cl-radius);
+  padding: var(--w-pad);
+  box-shadow: var(--cl-panel-shadow);
+}
+
+/* radius utility driven by the token, for elements that need it without widget-card */
+@utility radius-token {
+  border-radius: var(--cl-radius);
+}
+
+/* ── Layout-aware tweaks ───────────────────────────────────── */
+
+/* Dashboard: Quick Links grid promotes to 3 columns at wider widths.
+   Targets the .ql-grid hook on QuickLinks so we don't fight Tailwind. */
+[data-layout="dashboard"] .ql-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 1024px) {
+  [data-layout="dashboard"] .ql-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }

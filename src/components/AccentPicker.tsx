@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { useStore } from '../lib/store'
+import { getTheme } from '../lib/themes'
 
 const PRESETS = [
   { name: 'Terracotta', hex: '#c15f3c' },
@@ -15,8 +16,11 @@ const PRESETS = [
 export default function AccentPicker() {
   const currentAccent = useStore((s) => s.accentColor)
   const setAccentColor = useStore((s) => s.setAccentColor)
+  const themeId = useStore((s) => s.themeId)
   const pickerRef = useRef<HTMLInputElement>(null)
 
+  const themeDefault = getTheme(themeId).defaultAccent
+  const isOverridden = currentAccent !== themeDefault
   const isPreset = PRESETS.some((p) => p.hex === currentAccent)
 
   function handlePresetClick(hex: string) {
@@ -71,7 +75,7 @@ export default function AccentPicker() {
         >
           <span
             className="block w-6 h-6 rounded-full ring-1 ring-black/10 flex items-center justify-center"
-            style={{ backgroundColor: isPreset ? '#e5e2d8' : currentAccent }}
+            style={{ backgroundColor: isPreset ? 'var(--cl-panel-hover)' : currentAccent }}
           >
             {isPreset ? (
               <span className="text-[10px] font-sans text-muted font-medium">+</span>
@@ -91,6 +95,17 @@ export default function AccentPicker() {
         className="sr-only"
         aria-label="Pick a custom accent color"
       />
+
+      {isOverridden ? (
+        <button
+          type="button"
+          onClick={() => setAccentColor(themeDefault)}
+          className="mt-3 inline-flex items-center gap-1 font-sans text-[11px] text-muted/70
+            hover:text-accent transition-colors cursor-pointer"
+        >
+          ↺ Reset to {getTheme(themeId).name} default
+        </button>
+      ) : null}
     </div>
   )
 }
