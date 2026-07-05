@@ -146,7 +146,7 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
         bg-canvas/60 backdrop-blur-md"
     >
       {/* Outer Bezel (Double-Bezel) */}
-      <div className="p-1 rounded-[1.25rem] bg-canvas/10 border border-white/10 dark:border-black/30 shadow-2xl shadow-black/20 w-full max-w-3xl mx-4 max-h-[90dvh] flex flex-col">
+      <div className="p-1 rounded-[1.25rem] bg-canvas/10 border border-white/10 dark:border-black/30 shadow-2xl shadow-black/20 w-full max-w-3xl mx-4 max-h-[90dvh] flex flex-col overflow-hidden">
         {/* Inner Core */}
         <div
           className="bg-panel border border-line rounded-[calc(1.25rem-4px)] w-full
@@ -167,7 +167,7 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
         </div>
 
         {/* ── Content ──────────────────────────────────────── */}
-        <div className="flex-1 overflow-y-auto overscroll-contain p-6">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden overscroll-contain p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             
             {/* ── Column 1: Themes, Background, Layout ── */}
@@ -344,7 +344,7 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
                 <p className="font-sans text-xs text-dim mb-4">
                   Show or hide widgets on the start page
                 </p>
-                <div className="space-y-1 max-h-[160px] overflow-y-auto pr-1">
+                <div className="space-y-1 max-h-[160px] overflow-y-auto overflow-x-hidden pr-1">
                   {widgets.map((w) => (
                     <label
                       key={w.id}
@@ -373,18 +373,18 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
                 <p className="font-sans text-xs text-dim mb-3">
                   Personalise the time-of-day message
                 </p>
-                <div className="flex gap-3 items-center">
+                <div className="space-y-3">
                   <input
                     type="text"
                     value={greetingName}
                     onChange={(e) => setGreetingName(e.target.value)}
                     placeholder="Your name"
-                    className="flex-1 bg-input border border-line rounded-lg px-3 py-2
+                    className="w-full bg-input border border-line rounded-lg px-3 py-2.5
                       text-xs text-fg font-sans placeholder:text-dim/50 outline-none
                       transition-all duration-200
                       focus:border-accent/40 focus:ring-1 focus:ring-accent/20"
                   />
-                  <label className="flex items-center gap-2 shrink-0 cursor-pointer select-none">
+                  <label className="flex items-center justify-between py-2 px-2.5 rounded-lg hover:bg-panel-hover transition-colors cursor-pointer">
                     <span className="text-xs text-fg">Show "Dawn" branding</span>
                     <Toggle
                       checked={showBranding}
