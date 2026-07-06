@@ -64,6 +64,35 @@ function LinkForm({ initial, onSubmit, onCancel }: LinkFormProps) {
   )
 }
 
+function Favicon({ url }: { url: string }) {
+  const [error, setError] = useState(false)
+
+  const domain = (() => {
+    try {
+      const formattedUrl = url.match(/^https?:\/\//) ? url : `https://${url}`
+      const parsed = new URL(formattedUrl)
+      return parsed.hostname
+    } catch {
+      return ''
+    }
+  })()
+
+  if (error || !domain) {
+    return <Globe size={15} className="text-dim/60 group-hover:text-accent shrink-0 transition-colors" />
+  }
+
+  const iconUrl = `https://www.google.com/s2/favicons?sz=64&domain=${domain}`
+
+  return (
+    <img
+      src={iconUrl}
+      alt=""
+      onError={() => setError(true)}
+      className="w-4 h-4 rounded shrink-0 object-contain transition-transform group-hover:scale-110 duration-200"
+    />
+  )
+}
+
 interface LinkCardProps {
   link: QuickLink
   onEdit: (link: QuickLink) => void
@@ -90,13 +119,13 @@ function LinkCard({ link, onEdit, onDelete }: LinkCardProps) {
 
   return (
     <a
-      href={link.url}
+      href={link.url.match(/^https?:\/\//) ? link.url : `https://${link.url}`}
       target="_blank"
       rel="noopener noreferrer"
       className="group flex items-center gap-3 px-4 py-3 rounded-lg border border-line
         bg-panel hover:bg-panel-hover hover:border-line-strong transition-all no-underline cursor-pointer relative"
     >
-      <Globe size={15} className="text-dim/60 group-hover:text-accent shrink-0 transition-colors" />
+      <Favicon url={link.url} />
       <span className="text-sm text-fg truncate flex-1">
         {link.label}
       </span>
