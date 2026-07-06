@@ -60,8 +60,8 @@ export const THEMES: ThemeMeta[] = [
     backdrop: 'starfield',
     defaultAccent: '#7c8cff',
     swatch: {
-      lightCanvas: '#e8ecf4',
-      lightPanel: '#dce2ee',
+      lightCanvas: '#f8fafc',
+      lightPanel: '#ffffff',
       darkCanvas: '#0d1117',
       darkPanel: '#161b26',
       accent: '#7c8cff',
