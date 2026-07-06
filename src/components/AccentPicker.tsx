@@ -39,7 +39,7 @@ export default function AccentPicker() {
             type="button"
             onClick={() => handlePresetClick(preset.hex)}
             className={`
-              group relative flex flex-col items-center gap-1.5 px-2 py-2.5 rounded-lg
+              group relative flex flex-col items-center gap-1.5 px-2 py-2.5 radius-token
               border transition-all cursor-pointer tactile
               ${currentAccent === preset.hex
                 ? 'border-accent ring-2 ring-accent/25'
@@ -63,7 +63,7 @@ export default function AccentPicker() {
           type="button"
           onClick={() => pickerRef.current?.click()}
           className={`
-            group relative flex flex-col items-center gap-1.5 px-2 py-2.5 rounded-lg
+            group relative flex flex-col items-center gap-1.5 px-2 py-2.5 radius-token
             border transition-all cursor-pointer tactile
             ${!isPreset
               ? 'border-accent ring-2 ring-accent/25'

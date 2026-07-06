@@ -53,19 +53,20 @@ function SortableWidget({ id, isDragging, index, editing, fullWidth }: SortableW
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isSortDragging ? 0.3 : 1,
-    animationDelay: `${index * 0.08}s`,
   }
+
+  const animationDelay = `${index * 0.08}s`
 
   return (
     <div
       ref={setNodeRef}
       style={style}
       className={`
-        relative widget-enter w-full
+        relative w-full
         ${fullWidth ? '' : 'max-w-xl mx-auto'}
         ${isDragging ? 'z-50' : ''}
         ${editing ? 'ring-1 ring-accent/20 rounded-[var(--cl-radius)]' : ''}
-        ${isSortDragging ? 'ring-2 ring-accent/40' : ''}
+        ${isSortDragging ? 'ring-2 ring-accent/40 rounded-[var(--cl-radius)]' : ''}
       `}
     >
       {/* Drag handle — only visible in edit mode */}
@@ -83,7 +84,9 @@ function SortableWidget({ id, isDragging, index, editing, fullWidth }: SortableW
         </button>
       ) : null}
 
-      {WIDGET_MAP[id]}
+      <div className="widget-enter w-full" style={{ animationDelay }}>
+        {WIDGET_MAP[id]}
+      </div>
     </div>
   )
 }

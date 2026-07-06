@@ -30,7 +30,7 @@ function LinkForm({ initial, onSubmit, onCancel }: LinkFormProps) {
         value={label}
         onChange={(e) => setLabel(e.target.value)}
         placeholder="Link label"
-        className="bg-input border border-line rounded px-2.5 py-1.5 text-sm text-fg
+        className="bg-input border border-line radius-token px-2.5 py-1.5 text-sm text-fg
           font-mono placeholder:text-dim outline-none focus:ring-1 focus:ring-accent/40"
         autoFocus
       />
@@ -39,7 +39,7 @@ function LinkForm({ initial, onSubmit, onCancel }: LinkFormProps) {
         value={url}
         onChange={(e) => setUrl(e.target.value)}
         placeholder="https://..."
-        className="bg-input border border-line rounded px-2.5 py-1.5 text-sm text-fg
+        className="bg-input border border-line radius-token px-2.5 py-1.5 text-sm text-fg
           font-mono placeholder:text-dim outline-none focus:ring-1 focus:ring-accent/40"
       />
       <div className="flex gap-2 justify-end">
@@ -47,7 +47,7 @@ function LinkForm({ initial, onSubmit, onCancel }: LinkFormProps) {
           type="button"
           onClick={onCancel}
           className="px-3 py-1 text-xs font-sans text-muted/60 hover:text-fg
-            hover:bg-panel-hover rounded-lg transition-colors cursor-pointer"
+            hover:bg-panel-hover radius-token transition-colors cursor-pointer"
         >
           cancel
         </button>
@@ -55,7 +55,7 @@ function LinkForm({ initial, onSubmit, onCancel }: LinkFormProps) {
           type="submit"
           disabled={!label.trim() || !url.trim()}
           className="px-3 py-1 text-xs font-sans text-white bg-accent
-            hover:bg-accent-hover rounded-lg disabled:opacity-40 transition-colors cursor-pointer"
+            hover:bg-accent-hover radius-token disabled:opacity-40 transition-colors cursor-pointer"
         >
           {initial ? 'save' : 'add'}
         </button>
@@ -104,7 +104,7 @@ function LinkCard({ link, onEdit, onDelete }: LinkCardProps) {
 
   if (editing) {
     return (
-      <div className="bg-panel-hover border border-line rounded-lg p-3">
+      <div className="bg-panel-hover border border-line radius-token p-3">
         <LinkForm
           initial={link}
           onSubmit={(data) => {
@@ -122,7 +122,7 @@ function LinkCard({ link, onEdit, onDelete }: LinkCardProps) {
       href={link.url.match(/^https?:\/\//) ? link.url : `https://${link.url}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex items-center gap-3 px-4 py-3 rounded-lg border border-line
+      className="group flex items-center gap-3 px-4 py-3 radius-token border border-line
         bg-panel hover:bg-panel-hover hover:border-line-strong transition-all no-underline cursor-pointer relative"
     >
       <Favicon url={link.url} />

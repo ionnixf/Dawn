@@ -148,7 +148,7 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-dim hover:text-fg hover:bg-panel-hover
+            className="p-1.5 radius-token text-dim hover:text-fg hover:bg-panel-hover
               transition-all cursor-pointer"
             aria-label="Close settings"
           >
@@ -180,7 +180,7 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
                         type="button"
                         onClick={() => setThemeId(t.id)}
                         className={`
-                          group relative flex flex-col gap-2 p-2 rounded-xl
+                          group relative flex flex-col gap-2 p-2 radius-token
                           border transition-all duration-300 cursor-pointer tactile text-left bg-input/20
                           ${active
                             ? 'border-accent ring-2 ring-accent/25 bg-panel'
@@ -236,7 +236,7 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
                         type="button"
                         onClick={() => setBgType(type)}
                         className={`
-                          flex-1 py-2 rounded-lg text-xs font-sans font-medium tactile
+                          flex-1 py-2 radius-token text-xs font-sans font-medium tactile
                           transition-all duration-200 cursor-pointer border text-center
                           ${active
                             ? 'bg-accent text-white border-accent'
@@ -259,7 +259,7 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
                 <p className="font-sans text-xs text-dim mb-4">
                   Arrange widgets and control display density
                 </p>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {LAYOUTS.map((l) => {
                     const active = layoutId === l.id
                     const Preview = LAYOUT_PREVIEWS[l.id]
@@ -270,7 +270,7 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
                         onClick={() => setLayoutId(l.id)}
                         title={l.description}
                         className={`
-                          group relative p-2.5 rounded-xl text-xs font-sans text-left tactile
+                          group relative p-2.5 radius-token text-xs font-sans text-left tactile
                           transition-all duration-300 cursor-pointer border flex flex-col items-center gap-2 h-auto
                           ${active
                             ? 'bg-accent/10 border-accent/60 text-fg ring-1 ring-accent/20'
@@ -339,7 +339,7 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
                     <label
                       key={w.id}
                       className="flex items-center justify-between py-2 px-2.5
-                        rounded-lg hover:bg-panel-hover transition-colors cursor-pointer"
+                        radius-token hover:bg-panel-hover transition-colors cursor-pointer"
                     >
                       <div className="min-w-0 pr-2">
                         <p className="text-xs text-fg font-medium leading-normal">{WIDGET_LABELS[w.id]}</p>
@@ -369,12 +369,12 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
                     value={greetingName}
                     onChange={(e) => setGreetingName(e.target.value)}
                     placeholder="Your name"
-                    className="w-full bg-input border border-line rounded-lg px-3 py-2.5
+                    className="w-full bg-input border border-line radius-token px-3 py-2.5
                       text-xs text-fg font-sans placeholder:text-dim/50 outline-none
                       transition-all duration-200
                       focus:border-accent/40 focus:ring-1 focus:ring-accent/20"
                   />
-                  <label className="flex items-center justify-between py-2 px-2.5 rounded-lg hover:bg-panel-hover transition-colors cursor-pointer">
+                  <label className="flex items-center justify-between py-2 px-2.5 radius-token hover:bg-panel-hover transition-colors cursor-pointer">
                     <span className="text-xs text-fg">Show "Dawn" branding</span>
                     <Toggle
                       checked={showBranding}
@@ -410,7 +410,7 @@ export default function WidgetSettings({ isOpen, onClose }: { isOpen: boolean; o
                       key={engine}
                       type="button"
                       onClick={() => setSearchEngine(engine)}
-                      className={`flex-1 py-2 rounded-lg text-xs font-sans tactile
+                      className={`flex-1 py-2 radius-token text-xs font-sans tactile
                         transition-all duration-200 cursor-pointer border ${
                           searchEngine === engine
                             ? 'bg-accent text-white border-accent'
