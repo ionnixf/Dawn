@@ -350,10 +350,10 @@ html {
   opacity: 1;
 }
 [data-bg="photo"][data-mode="light"] .backdrop__overlay {
-  background-color: rgba(255, 255, 255, 0.25);
+  background-color: color-mix(in srgb, var(--cl-canvas) 25%, transparent);
 }
 [data-bg="photo"][data-mode="dark"] .backdrop__overlay {
-  background-color: rgba(0, 0, 0, 0.45);
+  background-color: color-mix(in srgb, var(--cl-canvas) 45%, transparent);
 }
 
 /* Hide default backdrop layers when photo bg is active */

@@ -11,7 +11,11 @@ import { useStore } from './lib/store'
  */
 function Backdrop() {
   const themeId = useStore((s) => s.themeId)
-  const photoUrl = `/${themeId.replace('-', '_')}_bg.jpg`
+  const mode = useStore((s) => s.theme)
+  const hasLightBg = ['midnight', 'forest'].includes(themeId)
+  const photoUrl = mode === 'light' && hasLightBg
+    ? `/${themeId.replace('-', '_')}_light_bg.jpg`
+    : `/${themeId.replace('-', '_')}_bg.jpg`
 
   return (
     <div className="backdrop" aria-hidden="true">
